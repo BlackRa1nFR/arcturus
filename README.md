@@ -3,11 +3,11 @@
 # Arcturus Emulator #
 
 ### Latest Arcturus Version ###
-1.16.0
+1.16.0 - 
 Targeting PRODUCTION-201611291003-338511768
 
 ### Latest Arcturus Fork Version ###
-1.11.0
+1.11.0 - 
 Targeting PRODUCTION-201709192204-203982672
 
 ### Extra Features in Arcturus Fork ###
