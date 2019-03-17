@@ -340,7 +340,7 @@ public class HabboManager
 
         Rank rank = Emulator.getGameEnvironment().getPermissionsManager().getRank(rankId);
 
-        if(habbo != null)
+        if(habbo != null && habbo.getHabboStats() != null)
         {
             habbo.getHabboInfo().setRank(rank);
             habbo.getClient().sendResponse(new UserPermissionsComposer(habbo));

@@ -151,14 +151,17 @@ public class WiredEffectLowerFurni extends InteractionWiredEffect
             catch (Exception e)
             {}
 
-            if (data[1].contains(";"))
+            if (data.length >= 2)
             {
-                for (String s : data[1].split(";"))
+                if (data[1].contains(";"))
                 {
-                    HabboItem item = room.getHabboItem(Integer.valueOf(s));
+                    for (String s : data[1].split(";"))
+                    {
+                        HabboItem item = room.getHabboItem(Integer.valueOf(s));
 
-                    if (item != null)
-                        this.items.add(item);
+                        if (item != null)
+                            this.items.add(item);
+                    }
                 }
             }
         }

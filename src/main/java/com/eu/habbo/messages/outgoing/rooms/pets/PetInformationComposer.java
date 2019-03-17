@@ -39,7 +39,14 @@ public class PetInformationComposer extends MessageComposer
             this.response.appendInt(20); //max level
         }
         this.response.appendInt(this.pet.getExperience());
-        this.response.appendInt(PetManager.experiences[this.pet.getLevel() - 1]); //XP Goal
+        if (this.pet.getLevel() < PetManager.experiences.length + 1)
+        {
+            this.response.appendInt(PetManager.experiences[this.pet.getLevel() - 1]); //XP Goal
+        }
+        else
+        {
+            this.response.appendInt(this.pet.getExperience());
+        }
         this.response.appendInt(this.pet.getEnergy());
         this.response.appendInt(this.pet.getMaxEnergy()); //Max energy
         this.response.appendInt(this.pet.getHappyness()); //this.pet.getHappyness()

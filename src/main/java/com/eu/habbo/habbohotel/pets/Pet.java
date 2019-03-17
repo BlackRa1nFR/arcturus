@@ -573,7 +573,7 @@ public class Pet implements ISerialize, Runnable
         {
             this.room.sendComposer(new RoomPetExperienceComposer(this, amount).compose());
 
-            if(this.experience >= PetManager.experiences[this.level - 1])
+            if(this.level < PetManager.experiences.length + 1 && this.experience >= PetManager.experiences[this.level - 1])
             {
                 this.levelUp();
             }

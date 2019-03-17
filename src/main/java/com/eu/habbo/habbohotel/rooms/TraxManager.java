@@ -125,7 +125,11 @@ public class TraxManager implements Disposable
 
     public SoundTrack currentSong()
     {
-        return Emulator.getGameEnvironment().getItemManager().getSoundTrack(this.songs.get(this.playingIndex).getSongId());
+        if (!this.songs.isEmpty() && this.playingIndex < this.songs.size())
+        {
+            return Emulator.getGameEnvironment().getItemManager().getSoundTrack(this.songs.get(this.playingIndex).getSongId());
+        }
+        return null;
     }
 
     public void addSong(int itemId)
