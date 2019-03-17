@@ -7,11 +7,13 @@ import com.eu.habbo.messages.outgoing.MessageComposer;
 import com.eu.habbo.messages.outgoing.Outgoing;
 import gnu.trove.set.hash.THashSet;
 
+import java.util.List;
+
 public class MarketplaceOffersComposer extends MessageComposer
 {
-    private final THashSet<MarketPlaceOffer> offers;
+    private final List<MarketPlaceOffer> offers;
 
-    public MarketplaceOffersComposer(THashSet<MarketPlaceOffer> offers)
+    public MarketplaceOffersComposer(List<MarketPlaceOffer> offers)
     {
         this.offers = offers;
     }
@@ -34,6 +36,10 @@ public class MarketplaceOffersComposer extends MessageComposer
                 this.response.appendInt(offer.getLimitedNumber());
                 this.response.appendInt(offer.getLimitedStack());
             }
+            else if (offer.getType() == 2)
+            {
+                this.response.appendString("");
+            }
             else
             {
                 this.response.appendInt(0);
@@ -41,12 +47,12 @@ public class MarketplaceOffersComposer extends MessageComposer
             }
             this.response.appendInt(MarketPlace.calculateCommision(offer.getPrice()));
             this.response.appendInt(0);
-            this.response.appendInt(offer.avarage);
+            this.response.appendInt(MarketPlace.calculateCommision(offer.avarage));
             this.response.appendInt(offer.count);
 
             total += offer.count;
         }
-        this.response.appendInt(total);
+        this.response.appendInt(this.offers.size());
         return this.response;
     }
 }

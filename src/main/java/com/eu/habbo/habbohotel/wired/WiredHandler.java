@@ -21,6 +21,7 @@ import com.eu.habbo.messages.outgoing.catalog.PurchaseOKComposer;
 import com.eu.habbo.messages.outgoing.generic.alerts.WiredRewardAlertComposer;
 import com.eu.habbo.messages.outgoing.inventory.AddHabboItemComposer;
 import com.eu.habbo.messages.outgoing.inventory.InventoryRefreshComposer;
+import com.eu.habbo.messages.outgoing.rooms.items.ItemStateComposer;
 import com.eu.habbo.messages.outgoing.users.AddUserBadgeComposer;
 import com.eu.habbo.plugin.events.furniture.wired.WiredConditionFailedEvent;
 import com.eu.habbo.plugin.events.furniture.wired.WiredStackExecutedEvent;
@@ -82,10 +83,10 @@ public class WiredHandler
 
     public static boolean handle(InteractionWiredTrigger trigger, final RoomUnit roomUnit, final Room room, final Object[] stuff)
     {
-        if(trigger.execute(roomUnit, room, stuff))
+        long millis = System.currentTimeMillis();
+        if(trigger.canExecute(millis) && trigger.execute(roomUnit, room, stuff))
         {
-            trigger.setExtradata(trigger.getExtradata().equals("1") ? "0" : "1");
-            room.updateItem(trigger);
+            trigger.activateBox(room);
 
             THashSet<InteractionWiredCondition> conditions = room.getRoomSpecialTypes().getConditions(trigger.getX(), trigger.getY());
             THashSet<InteractionWiredEffect> effects = room.getRoomSpecialTypes().getEffects(trigger.getX(), trigger.getY());
@@ -97,8 +98,7 @@ public class WiredHandler
             {
                 if(condition.execute(roomUnit, room, stuff))
                 {
-                    condition.setExtradata(condition.getExtradata().equals("1") ? "0" : "1");
-                    room.updateItem(condition);
+                    condition.activateBox(room);
                 }
                 else
                 {
@@ -114,8 +114,7 @@ public class WiredHandler
 
             for (InteractionWiredExtra extra : extras)
             {
-                extra.setExtradata(extra.getExtradata().equals("1") ? "0" : "1");
-                room.updateItem(extra);
+                extra.activateBox(room);
             }
 
             List<InteractionWiredEffect> effectList = new ArrayList<>(effects);
@@ -125,7 +124,6 @@ public class WiredHandler
                 Collections.shuffle(effectList);
             }
 
-            long millis = System.currentTimeMillis();
 
             if (hasExtraUnseen)
             {
@@ -182,8 +180,7 @@ public class WiredHandler
                                 Emulator.getLogging().logErrorLine(e);
                             }
 
-                            effect.setExtradata(effect.getExtradata().equals("1") ? "0" : "1");
-                            room.updateItem(effect);
+                            effect.activateBox(room);
                         }
                     }
                 }, effect.getDelay() * 500);
@@ -348,7 +345,7 @@ public class WiredHandler
                 {
                     if (set.getInt("rows") >= 1)
                     {
-                        if (wiredBox.limit == 0)
+                        if (wiredBox.rewardTime == WiredEffectGiveReward.LIMIT_ONCE)
                         {
                             habbo.getClient().sendResponse(new WiredRewardAlertComposer(WiredRewardAlertComposer.REWARD_ALREADY_RECEIVED));
                             return false;
@@ -358,7 +355,7 @@ public class WiredHandler
                     set.beforeFirst();
                     if (set.next())
                     {
-                        if (wiredBox.limit == WiredEffectGiveReward.LIMIT_N_MINUTES)
+                        if (wiredBox.rewardTime == WiredEffectGiveReward.LIMIT_N_MINUTES)
                         {
                             if (Emulator.getIntUnixTimestamp() - set.getInt("timestamp") <= 60)
                             {
@@ -376,7 +373,7 @@ public class WiredHandler
                             }
                         }
 
-                        if (wiredBox.limit == WiredEffectGiveReward.LIMIT_N_HOURS)
+                        if (wiredBox.rewardTime == WiredEffectGiveReward.LIMIT_N_HOURS)
                         {
                             if (!(Emulator.getIntUnixTimestamp() - set.getInt("timestamp") >= (3600 * wiredBox.limitationInterval)))
                             {
@@ -385,7 +382,7 @@ public class WiredHandler
                             }
                         }
 
-                        if (wiredBox.limit == WiredEffectGiveReward.LIMIT_N_DAY)
+                        if (wiredBox.rewardTime == WiredEffectGiveReward.LIMIT_N_DAY)
                         {
                             if (!(Emulator.getIntUnixTimestamp() - set.getInt("timestamp") >= (86400 * wiredBox.limitationInterval)))
                             {

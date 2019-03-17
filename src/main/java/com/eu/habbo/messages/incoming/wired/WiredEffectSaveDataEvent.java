@@ -27,12 +27,6 @@ public class WiredEffectSaveDataEvent extends MessageHandler
 
                 if(effect != null)
                 {
-                    if(effect instanceof WiredEffectGiveReward && !this.client.getHabbo().hasPermission("acc_superwired"))
-                    {
-                        this.client.sendResponse(new RoomUserWhisperComposer(new RoomChatMessage("U cannot do this.", this.client.getHabbo(), this.client.getHabbo(), RoomChatMessageBubbles.ALERT)));
-                        return;
-                    }
-
                     if(effect.saveData(this.packet, this.client))
                     {
                         this.client.sendResponse(new WiredSavedComposer());

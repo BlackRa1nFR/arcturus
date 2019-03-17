@@ -6,8 +6,8 @@ import com.eu.habbo.habbohotel.users.HabboManager;
 import com.eu.habbo.messages.ServerMessage;
 import com.eu.habbo.messages.incoming.MessageHandler;
 import com.eu.habbo.messages.outgoing.achievements.AchievementListComposer;
-import com.eu.habbo.messages.outgoing.gamcenter.GameCenterAccountInfoComposer;
-import com.eu.habbo.messages.outgoing.gamcenter.GameCenterGameListComposer;
+import com.eu.habbo.messages.outgoing.gamecenter.GameCenterAccountInfoComposer;
+import com.eu.habbo.messages.outgoing.gamecenter.GameCenterGameListComposer;
 import com.eu.habbo.messages.outgoing.generic.alerts.GenericAlertComposer;
 import com.eu.habbo.messages.outgoing.handshake.*;
 import com.eu.habbo.messages.outgoing.inventory.InventoryAchievementsComposer;
@@ -141,7 +141,7 @@ public class SecureLoginEvent extends MessageHandler
                         {
                             client.sendResponse(new GenericAlertComposer(HabboManager.WELCOME_MESSAGE.replace("%username%", finalHabbo.getHabboInfo().getUsername()).replace("%user%", finalHabbo.getHabboInfo().getUsername())));
                         }
-                    }, 5000);
+                    }, Emulator.getConfig().getInt("hotel.welcome.alert.delay", 5000));
                 }
             }
             else

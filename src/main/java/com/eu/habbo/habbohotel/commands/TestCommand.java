@@ -21,6 +21,7 @@ import com.eu.habbo.messages.incoming.gamecenter.GameCenterRequestGamesEvent;
 import com.eu.habbo.messages.incoming.rooms.pets.MovePetEvent;
 import com.eu.habbo.messages.outgoing.MessageComposer;
 import com.eu.habbo.messages.outgoing.Outgoing;
+import com.eu.habbo.messages.outgoing.events.calendar.AdventCalendarDataComposer;
 import com.eu.habbo.messages.outgoing.generic.alerts.GenericAlertComposer;
 import com.eu.habbo.messages.outgoing.generic.alerts.MessagesForYouComposer;
 import com.eu.habbo.messages.outgoing.rooms.pets.PetInformationComposer;
@@ -28,18 +29,21 @@ import com.eu.habbo.messages.outgoing.rooms.pets.PetStatusUpdateComposer;
 import com.eu.habbo.messages.outgoing.rooms.users.RoomUserDataComposer;
 import com.eu.habbo.messages.outgoing.rooms.users.RoomUserStatusComposer;
 import com.eu.habbo.messages.outgoing.rooms.users.RoomUserWhisperComposer;
+import com.eu.habbo.messages.outgoing.unknown.NuxAlertComposer;
 import com.eu.habbo.messages.outgoing.users.UserDataComposer;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import gnu.trove.procedure.TObjectProcedure;
+import org.joda.time.Days;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -162,7 +166,7 @@ public class TestCommand extends Command
 
             for(int i = 0; i < count; i++)
             {
-                gameClient.sendResponse(new RoomUserWhisperComposer(new RoomChatMessage("" + i, gameClient.getHabbo(), RoomChatMessageBubbles.getBubble(i))));
+                gameClient.getHabbo().whisper("" + i, RoomChatMessageBubbles.getBubble(i));
             }
 
             return true;
@@ -369,6 +373,9 @@ public class TestCommand extends Command
                 }
             });
         }
+        else if (params[1].equals("adv"))
+        {
+        }
         else if (params[1].equals("datb"))
         {
                     long millis = 1;
@@ -507,54 +514,6 @@ public class TestCommand extends Command
                 pet.getRoomUnit().getStatus().clear();
                 gameClient.sendResponse(new RoomUserStatusComposer(pet.getRoomUnit()));
             }
-        }
-        else
-        {*/
-        /*if(params[1].equalsIgnoreCase("ss"))
-        {
-            gameClient.sendResponse(new SnowWarsQuickJoinComposer());
-            gameClient.sendResponse(new SnowWarsStartLobbyCounter());
-            gameClient.sendResponse(new SnowWarsQuePositionComposer());
-            gameClient.sendResponse(new SnowWarsLevelDataComposer());
-            gameClient.sendResponse(new SnowWarsUserEnteredArenaComposer(1));
-            gameClient.sendResponse(new SnowWarsUserEnteredArenaComposer(2));
-            ServerMessage message = new ServerMessage();
-            message.init(2077);
-            message.appendInt(0);
-            gameClient.sendResponse(message);
-
-            gameClient.sendResponse(new SnowWarsOnStageRunningComposer());
-
-            for(int i = 0; i < 5; i++)
-            {
-                gameClient.sendResponse(new SnowWarsLoadingArenaComposer(0));
-            }
-            for(int i = 0; i < 4; i++)
-                gameClient.sendResponse(new SnowWarsLoadingArenaComposer(11));
-
-            for(int i = 0; i < 2; i++)
-                gameClient.sendResponse(new SnowWarsLoadingArenaComposer(33));
-
-            for(int i = 0; i < 6; i++)
-                gameClient.sendResponse(new SnowWarsLoadingArenaComposer(67));
-
-            ServerMessage ff = new ServerMessage();
-            ff.init(3850);
-            ff.appendInt(100);
-            ff.appendInt(2);
-            ff.appendInt(1);
-            ff.appendInt(2);
-            gameClient.sendResponse(ff);
-
-            gameClient.sendResponse(new SnowWarsCompose1(2823));
-            gameClient.sendResponse(new SnowWarsOnStageStartComposer());
-            gameClient.sendResponse(new SnowWarsOnStageRunningComposer());
-            /*
-            gameClient.sendResponse(new SnowWarsPreviousRoomComposer());
-            gameClient.sendResponse(new SnowWarsResetTimerComposer());
-            gameClient.sendResponse(new SnowWarsOnStageEnding());
-            gameClient.sendResponse(new SnowWarsOnGameEnding());*/
-            /*return true;
         }
         else if(params[1].equalsIgnoreCase("club"))
         {

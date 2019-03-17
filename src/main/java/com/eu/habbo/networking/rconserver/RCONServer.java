@@ -65,6 +65,7 @@ public class RCONServer
         this.addRCONMessage("modticket",            CreateModToolTicket.class);
         this.addRCONMessage("talkuser",             TalkUser.class);
         this.addRCONMessage("changeroomowner",      ChangeRoomOwner.class);
+        this.addRCONMessage("muteuser",             MuteUser.class);
     }
 
     public void initialise()
@@ -132,8 +133,9 @@ public class RCONServer
 
                 if (Emulator.debugging)
                 {
-                    System.out.println(" [" + Logging.ANSI_BLUE + "DATA" + Logging.ANSI_RESET + "]" + result);
+                    System.out.print(" [" + Logging.ANSI_BLUE + "DATA" + Logging.ANSI_RESET + "]" + body + "[" + Logging.ANSI_BLUE + "RESULT" + Logging.ANSI_RESET + "]" + result);
                 }
+                System.out.println("");
 
                 return result;
             }

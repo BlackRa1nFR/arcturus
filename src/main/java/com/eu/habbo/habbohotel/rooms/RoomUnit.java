@@ -145,6 +145,11 @@ public class RoomUnit
             if (this.path.isEmpty())
             {
                 this.sitUpdate = true;
+
+                if (room.hasHabbosAt(next.x, next.y))
+                {
+                    return false;
+                }
             }
 
             Deque<RoomTile> peekPath = room.getLayout().findPath(this.currentLocation, this.path.peek());
@@ -202,6 +207,28 @@ public class RoomUnit
 
             HabboItem item = room.getTopItemAt(next.x, next.y);
 
+
+            //if(!(this.path.size() == 0 && canSitNextTile))
+            {
+                if (!room.tileWalkable(next.x, next.y) && !(item instanceof InteractionTeleport))
+                {
+                    this.room = room;
+                    this.findPath();
+
+                    if (!this.path.isEmpty())
+                    {
+                        next = this.path.pop();
+                        item = room.getTopItemAt(next.x, next.y);
+                    }
+                    else
+                    {
+                        this.status.remove("mv");
+                        return false;
+                    }
+
+                }
+            }
+
             boolean canSitNextTile = room.canSitAt(next.x, next.y);
 
             if (canSitNextTile)
@@ -210,41 +237,6 @@ public class RoomUnit
 
                 if (lowestChair != null)
                     item = lowestChair;
-            }
-
-            //if(!(this.path.size() == 0 && canSitNextTile))
-            {
-                if (!room.tileWalkable(next.x, next.y) && !(item instanceof InteractionTeleport))
-                {
-                    Deque<RoomTile> path = new LinkedList<>(this.path);
-                    this.path.clear();
-                    RoomTile newGoal = next;
-                    if (!path.isEmpty())
-                    {
-                        newGoal = path.pop();
-                    }
-                    RoomTile oldGoal = this.goalLocation;
-                    this.setGoalLocation(room.getLayout().getTile(newGoal.x, newGoal.y));
-                    this.room = room;
-                    this.findPath();
-                    if (this.path.size() > 0)
-                    {
-                        for (int i = 0; i < this.path.size(); i++)
-                        {
-                            path.addFirst(this.path.pollLast());
-                        }
-                    }
-                    this.goalLocation = oldGoal;
-                    this.path.clear();
-                    this.path.addAll(path);
-                    if (this.path.isEmpty())
-                    {
-                        room.sendComposer(new RoomUserStatusComposer(this).compose());
-                        return false;
-                    }
-
-                    next = this.path.poll();
-                }
             }
 
             double zHeight = 0.0D;

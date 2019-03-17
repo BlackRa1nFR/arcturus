@@ -313,6 +313,9 @@ public abstract class HabboItem implements Runnable, IEventTriggers
     @Override
     public void onWalkOn(RoomUnit roomUnit, Room room, Object[] objects) throws Exception
     {
+        if (objects != null && objects.length >= 1 && objects[0] instanceof InteractionWired)
+            return;
+
         WiredHandler.handle(WiredTriggerType.WALKS_ON_FURNI, roomUnit, room, new Object[]{this});
     }
 
@@ -411,5 +414,10 @@ public abstract class HabboItem implements Runnable, IEventTriggers
     public String toString()
     {
         return "ID: " + this.id + ", BaseID: " + this.getBaseItem().getId() + ", X: " + this.x + ", Y: " + this.y + ", Z: " + this.z + ", Extradata: " + this.extradata;
+    }
+
+    public boolean allowWiredResetState()
+    {
+        return false;
     }
 }

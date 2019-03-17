@@ -272,20 +272,22 @@ public class RoomLayout
             long startMillis = System.currentTimeMillis();
             while (true)
             {
-                if (System.currentTimeMillis() - startMillis > 100)
+                if (System.currentTimeMillis() - startMillis > 25)
                 {
                     return new LinkedList<>();
                 }
+
                 RoomTile current = lowestFInOpen(openList);
                 closedList.add(current);
                 openList.remove(current);
-
-                List<RoomTile> adjacentNodes = getAdjacent(openList, current, newTile.x, newTile.y);
 
                 if ((current.x == newTile.x) && (current.y == newTile.y))
                 {
                     return calcPath(findTile(openList, (short)oldTile.x, (short)oldTile.y), current);
                 }
+
+                List<RoomTile> adjacentNodes = getAdjacent(openList, current, newTile.x, newTile.y);
+
                 for (RoomTile currentAdj : adjacentNodes)
                 {
                     if (!currentAdj.isWalkable() && !(currentAdj.equals(newTile) && room.canSitOrLayAt(currentAdj.x, currentAdj.y))){ closedList.add(currentAdj); openList.remove(currentAdj); continue;}
@@ -293,7 +295,7 @@ public class RoomLayout
 
                     double height = (room.getLayout().getStackHeightAtSquare(currentAdj.x, currentAdj.y) - room.getLayout().getStackHeightAtSquare(current.x, current.y));
 
-                    if ((!ALLOW_FALLING && height < -MAXIMUM_STEP_HEIGHT) || height > MAXIMUM_STEP_HEIGHT)
+                    if ((!ALLOW_FALLING && height < -MAXIMUM_STEP_HEIGHT) || (height > MAXIMUM_STEP_HEIGHT && !room.canLayAt(currentAdj.x, currentAdj.y)))
                         continue;
 
                     if (!this.room.isAllowWalkthrough() && room.hasHabbosAt(currentAdj.x, currentAdj.y)) continue;
@@ -505,6 +507,7 @@ public class RoomLayout
         int offsetX = 0;
         int offsetY = 0;
 
+        rotation = rotation % 8;
         switch (rotation)
         {
             case 0: offsetY--; break;
@@ -535,7 +538,7 @@ public class RoomLayout
         RoomTile previous = tile;
         for (int i = 0; i < amount; i++)
         {
-            RoomTile t = this.getTileInFront(previous, rotation, i);
+            RoomTile t = this.getTileInFront(previous, rotation, 1);
 
             if (t != null)
             {

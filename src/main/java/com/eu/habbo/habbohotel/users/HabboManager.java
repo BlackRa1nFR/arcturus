@@ -7,7 +7,10 @@ import com.eu.habbo.habbohotel.gameclients.GameClient;
 import com.eu.habbo.habbohotel.modtool.ModToolBan;
 import com.eu.habbo.habbohotel.permissions.Rank;
 import com.eu.habbo.messages.ServerMessage;
+import com.eu.habbo.messages.outgoing.catalog.*;
+import com.eu.habbo.messages.outgoing.catalog.marketplace.MarketplaceConfigComposer;
 import com.eu.habbo.messages.outgoing.generic.alerts.GenericAlertComposer;
+import com.eu.habbo.messages.outgoing.modtool.ModToolComposer;
 import com.eu.habbo.messages.outgoing.users.UserPerksComposer;
 import com.eu.habbo.messages.outgoing.users.UserPermissionsComposer;
 import com.eu.habbo.messages.rcon.RCONMessage;
@@ -18,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -293,6 +297,30 @@ public class HabboManager
         return habboInfo;
     }
 
+    public List<Map.Entry<Integer, String>> getNameChanges(int userId, int limit)
+    {
+        List<Map.Entry<Integer, String>> nameChanges = new ArrayList<>();
+
+        try (Connection connection = Emulator.getDatabase().getDataSource().getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT timestamp, new_name FROM namechange_log WHERE user_id = ? ORDER by timestamp DESC LIMIT ?"))
+        {
+            statement.setInt(1, userId);
+            statement.setInt(2, limit);
+            try (ResultSet set = statement.executeQuery())
+            {
+                while (set.next())
+                {
+                    nameChanges.add(new AbstractMap.SimpleEntry<Integer, String>(set.getInt("timestamp"), set.getString("new_name")));
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            Emulator.getLogging().logSQLException(e);
+        }
+
+        return nameChanges;
+    }
+
     /**
      * Sets the rank for an user.
      * Updates the database if the user is offline.
@@ -316,12 +344,48 @@ public class HabboManager
             habbo.getHabboInfo().setRank(rank);
             habbo.getClient().sendResponse(new UserPermissionsComposer(habbo));
             habbo.getClient().sendResponse(new UserPerksComposer(habbo));
+
+            if (habbo.hasPermission("acc_supporttool"))
+            {
+                habbo.getClient().sendResponse(new ModToolComposer(habbo));
+            }
+            habbo.getHabboInfo().run();
+
+            habbo.getClient().sendResponse(new CatalogUpdatedComposer());
+            habbo.getClient().sendResponse(new CatalogModeComposer(0));
+            habbo.getClient().sendResponse(new DiscountComposer());
+            habbo.getClient().sendResponse(new MarketplaceConfigComposer());
+            habbo.getClient().sendResponse(new GiftConfigurationComposer());
+            habbo.getClient().sendResponse(new RecyclerLogicComposer());
+            habbo.getClient().sendResponse(new GenericAlertComposer(Emulator.getTexts().getValue("commands.generic.cmd_give_rank.new_rank").replace("id", rank.getName())));
         }
         else
         {
             try (Connection connection = Emulator.getDatabase().getDataSource().getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET rank = ? WHERE id = ? LIMIT 1"))
             {
                 statement.setInt(1, rankId);
+                statement.setInt(2, userId);
+                statement.execute();
+            }
+            catch (SQLException e)
+            {
+                Emulator.getLogging().logSQLException(e);
+            }
+        }
+    }
+
+    public void giveCredits(int userId, int credits)
+    {
+        Habbo habbo = this.getHabbo(userId);
+        if (habbo != null)
+        {
+            habbo.giveCredits(credits);
+        }
+        else
+        {
+            try (Connection connection = Emulator.getDatabase().getDataSource().getConnection(); PreparedStatement statement= connection.prepareStatement("UPDATE users SET credits = credits + ? WHERE id = ? LIMIT 1"))
+            {
+                statement.setInt(1, credits);
                 statement.setInt(2, userId);
                 statement.execute();
             }

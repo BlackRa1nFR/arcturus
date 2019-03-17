@@ -8,6 +8,7 @@ import com.eu.habbo.habbohotel.rooms.RoomTile;
 import com.eu.habbo.habbohotel.users.Habbo;
 import com.eu.habbo.messages.outgoing.generic.alerts.GenericAlertComposer;
 import com.eu.habbo.messages.outgoing.rooms.ForwardToRoomComposer;
+import com.eu.habbo.messages.outgoing.rooms.HideDoorbellComposer;
 import com.eu.habbo.messages.outgoing.rooms.users.RoomUserWhisperComposer;
 
 public class SummonCommand extends Command
@@ -29,30 +30,31 @@ public class SummonCommand extends Command
 
             if(habbo == null)
             {
-                gameClient.sendResponse(new RoomUserWhisperComposer(new RoomChatMessage(Emulator.getTexts().getValue("commands.error.cmd_summon.not_found").replace("%user%", params[1]), gameClient.getHabbo(), gameClient.getHabbo(), RoomChatMessageBubbles.ALERT)));
+                gameClient.getHabbo().whisper(Emulator.getTexts().getValue("commands.error.cmd_summon.not_found").replace("%user%", params[1]), RoomChatMessageBubbles.ALERT);
                 return true;
             }
 
             if(gameClient.getHabbo().getHabboInfo().getUsername().equals(habbo.getHabboInfo().getUsername()))
             {
-                gameClient.sendResponse(new RoomUserWhisperComposer(new RoomChatMessage(Emulator.getTexts().getValue("commands.generic.cmd_summon.self").replace("%user%", params[1]), gameClient.getHabbo(), gameClient.getHabbo(), RoomChatMessageBubbles.ALERT)));
+                gameClient.getHabbo().whisper(Emulator.getTexts().getValue("commands.generic.cmd_summon.self").replace("%user%", params[1]), RoomChatMessageBubbles.ALERT);
                 return true;
             }
 
             if(gameClient.getHabbo().getHabboInfo().getCurrentRoom() == habbo.getHabboInfo().getCurrentRoom())
             {
-                gameClient.sendResponse(new RoomUserWhisperComposer(new RoomChatMessage(Emulator.getTexts().getValue("commands.generic.cmd_summon.same_room").replace("%user%", params[1]), gameClient.getHabbo(), gameClient.getHabbo(), RoomChatMessageBubbles.ALERT)));
+                gameClient.getHabbo().whisper(Emulator.getTexts().getValue("commands.generic.cmd_summon.same_room").replace("%user%", params[1]), RoomChatMessageBubbles.ALERT);
                 return true;
             }
 
-            gameClient.sendResponse(new RoomUserWhisperComposer(new RoomChatMessage(Emulator.getTexts().getValue("commands.generic.cmd_summon.summoning").replace("%user%", params[1]), gameClient.getHabbo(), gameClient.getHabbo(), RoomChatMessageBubbles.ALERT)));
+            gameClient.getHabbo().whisper(Emulator.getTexts().getValue("commands.generic.cmd_summon.summoning").replace("%user%", params[1]), RoomChatMessageBubbles.ALERT);
 
-            Emulator.getGameEnvironment().getRoomManager().leaveRoom(habbo, habbo.getHabboInfo().getCurrentRoom());
+            //Emulator.getGameEnvironment().getRoomManager().leaveRoom(habbo, habbo.getHabboInfo().getCurrentRoom());
 
             habbo.getClient().sendResponse(new ForwardToRoomComposer(gameClient.getHabbo().getHabboInfo().getCurrentRoom().getId()));
             Emulator.getGameEnvironment().getRoomManager().enterRoom(habbo, gameClient.getHabbo().getHabboInfo().getCurrentRoom().getId(), "", true);
+            habbo.getClient().sendResponse(new HideDoorbellComposer(""));
 
-            gameClient.sendResponse(new RoomUserWhisperComposer(new RoomChatMessage(Emulator.getTexts().getValue("commands.succes.cmd_summon.summoned").replace("%user%", params[1]), gameClient.getHabbo(), gameClient.getHabbo(), RoomChatMessageBubbles.ALERT)));
+            gameClient.getHabbo().whisper(Emulator.getTexts().getValue("commands.succes.cmd_summon.summoned").replace("%user%", params[1]), RoomChatMessageBubbles.ALERT);
 
             RoomTile t = gameClient.getHabbo().getHabboInfo().getCurrentRoom().getLayout().getTileInFront(gameClient.getHabbo().getRoomUnit().getCurrentLocation(), gameClient.getHabbo().getRoomUnit().getBodyRotation().getValue());
 
@@ -67,7 +69,7 @@ public class SummonCommand extends Command
         }
         else
         {
-            gameClient.sendResponse(new RoomUserWhisperComposer(new RoomChatMessage(Emulator.getTexts().getValue("commands.error.cmd_summon.forgot_username"), gameClient.getHabbo(), gameClient.getHabbo(), RoomChatMessageBubbles.ALERT)));
+            gameClient.getHabbo().whisper(Emulator.getTexts().getValue("commands.error.cmd_summon.forgot_username"), RoomChatMessageBubbles.ALERT);
             return true;
         }
     }

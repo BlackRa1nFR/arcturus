@@ -70,6 +70,12 @@ public class HabboInfo implements Runnable
             this.ipRegister = set.getString("ip_register");
             this.ipLogin = set.getString("ip_current");
             this.rank = Emulator.getGameEnvironment().getPermissionsManager().getRank(set.getInt("rank"));
+
+            if (this.rank == null)
+            {
+                Emulator.getLogging().logErrorLine("No existing rank found with id " + set.getInt("rank") + ". Make sure an entry in the permissions table exists.");
+            }
+
             this.accountCreated = set.getInt("account_created");
             this.credits = set.getInt("credits");
             this.homeRoom = set.getInt("home_room");
@@ -242,7 +248,6 @@ public class HabboInfo implements Runnable
         return this.ipLogin;
     }
 
-    @Deprecated
     public void setIpLogin(String ipLogin)
     {
         this.ipLogin = ipLogin;
@@ -456,7 +461,7 @@ public class HabboInfo implements Runnable
     {
         this.saveCurrencies();
 
-        try (Connection connection = Emulator.getDatabase().getDataSource().getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET motto = ?, online = ?, look = ?, gender = ?, credits = ?, last_login = ?, last_online = ?, home_room = ?, ip_current = ?, rank = ?, machine_id = ? WHERE id = ?"))
+        try (Connection connection = Emulator.getDatabase().getDataSource().getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE users SET motto = ?, online = ?, look = ?, gender = ?, credits = ?, last_login = ?, last_online = ?, home_room = ?, ip_current = ?, rank = ?, machine_id = ?, username = ? WHERE id = ?"))
         {
             statement.setString(1, this.motto);
             statement.setString(2, this.online ? "1" : "0");
@@ -469,7 +474,8 @@ public class HabboInfo implements Runnable
             statement.setString(9, this.ipLogin);
             statement.setInt(10, this.rank.getId());
             statement.setString(11, this.machineID);
-            statement.setInt(12, this.id);
+            statement.setString(12, this.username);
+            statement.setInt(13, this.id);
             statement.executeUpdate();
         }
         catch(SQLException e)

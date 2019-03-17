@@ -30,10 +30,7 @@ import com.eu.habbo.messages.incoming.polls.*;
 import com.eu.habbo.messages.incoming.rooms.*;
 import com.eu.habbo.messages.incoming.rooms.bots.*;
 import com.eu.habbo.messages.incoming.rooms.items.*;
-import com.eu.habbo.messages.incoming.rooms.items.jukebox.JukeBoxAddSoundTrackEvent;
-import com.eu.habbo.messages.incoming.rooms.items.jukebox.JukeBoxEventOne;
-import com.eu.habbo.messages.incoming.rooms.items.jukebox.JukeBoxEventTwo;
-import com.eu.habbo.messages.incoming.rooms.items.jukebox.JukeBoxRequestPlayListEvent;
+import com.eu.habbo.messages.incoming.rooms.items.jukebox.*;
 import com.eu.habbo.messages.incoming.rooms.items.rentablespace.*;
 import com.eu.habbo.messages.incoming.rooms.items.youtube.YoutubeRequestNextVideoEvent;
 import com.eu.habbo.messages.incoming.rooms.items.youtube.YoutubeRequestPlayListEvent;
@@ -388,6 +385,7 @@ public class PacketManager
         this.registerHandler(Incoming.JukeBoxRequestTrackCodeEvent,             JukeBoxRequestTrackCodeEvent.class);
         this.registerHandler(Incoming.JukeBoxRequestTrackDataEvent,             JukeBoxRequestTrackDataEvent.class);
         this.registerHandler(Incoming.JukeBoxAddSoundTrackEvent,                JukeBoxAddSoundTrackEvent.class);
+        this.registerHandler(Incoming.JukeBoxRemoveSoundTrackEvent,             JukeBoxRemoveSoundTrackEvent.class);
         this.registerHandler(Incoming.JukeBoxRequestPlayListEvent,              JukeBoxRequestPlayListEvent.class);
         this.registerHandler(Incoming.JukeBoxEventOne,                          JukeBoxEventOne.class);
         this.registerHandler(Incoming.JukeBoxEventTwo,                          JukeBoxEventTwo.class);
@@ -435,11 +433,14 @@ public class PacketManager
         this.registerHandler(Incoming.ModToolSanctionMuteEvent,                 ModToolSanctionMuteEvent.class);
         this.registerHandler(Incoming.ModToolSanctionBanEvent,                  ModToolSanctionBanEvent.class);
         this.registerHandler(Incoming.ModToolSanctionTradeLockEvent,            ModToolSanctionTradeLockEvent.class);
+        this.registerHandler(Incoming.ModToolIssueChangeTopicEvent,             ModToolIssueChangeTopicEvent.class);
+        this.registerHandler(Incoming.ModToolIssueDefaultSanctionEvent,         ModToolIssueDefaultSanctionEvent.class);
 
         this.registerHandler(Incoming.RequestReportRoomEvent,                   RequestReportRoomEvent.class);
         this.registerHandler(Incoming.RequestReportUserBullyingEvent,           RequestReportUserBullyingEvent.class);
         this.registerHandler(Incoming.ReportBullyEvent,                         ReportBullyEvent.class);
         this.registerHandler(Incoming.ReportEvent,                              ReportEvent.class);
+        this.registerHandler(Incoming.ReportFriendPrivateChatEvent,             ReportFriendPrivateChatEvent.class);
     }
 
     void registerTrading() throws Exception
@@ -452,6 +453,7 @@ public class PacketManager
         this.registerHandler(Incoming.TradeUnAcceptEvent,                       TradeUnAcceptEvent.class);
         this.registerHandler(Incoming.TradeConfirmEvent,                        TradeConfirmEvent.class);
         this.registerHandler(Incoming.TradeCloseEvent,                          TradeCloseEvent.class);
+        this.registerHandler(Incoming.TradeCancelEvent,                         TradeCancelEvent.class);
     }
 
     void registerGuilds() throws Exception
@@ -567,6 +569,7 @@ public class PacketManager
         this.registerHandler(Incoming.GameCenterRequestAccountStatusEvent,      GameCenterRequestAccountStatusEvent.class);
         this.registerHandler(Incoming.GameCenterJoinGameEvent,                  GameCenterJoinGameEvent.class);
         this.registerHandler(Incoming.GameCenterLoadGameEvent,                  GameCenterLoadGameEvent.class);
+        this.registerHandler(Incoming.GameCenterLeaveGameEvent,                 GameCenterLeaveGameEvent.class);
         this.registerHandler(Incoming.GameCenterEvent,                          GameCenterEvent.class);
         this.registerHandler(Incoming.GameCenterRequestGameStatusEvent,         GameCenterRequestGameStatusEvent.class);
     }

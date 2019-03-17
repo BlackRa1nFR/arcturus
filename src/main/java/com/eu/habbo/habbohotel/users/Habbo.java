@@ -23,6 +23,7 @@ import com.eu.habbo.plugin.events.users.UserDisconnectEvent;
 import com.eu.habbo.plugin.events.users.UserPointsEvent;
 import gnu.trove.set.hash.THashSet;
 
+import java.net.InetSocketAddress;
 import java.sql.ResultSet;
 
 public class Habbo implements Runnable
@@ -66,7 +67,6 @@ public class Habbo implements Runnable
     void isOnline(boolean value)
     {
         this.habboInfo.setOnline(value);
-        this.habboInfo.setLastOnline(Emulator.getIntUnixTimestamp());
         this.update();
     }
 
@@ -131,7 +131,11 @@ public class Habbo implements Runnable
      */
     public void connect()
     {
-        //this.habboInfo.setIpLogin(((InetSocketAddress)this.client.getChannel().remoteAddress()).getAddress().getHostAddress());
+        if (!Emulator.getConfig().getBoolean("networking.tcp.proxy"))
+        {
+            this.habboInfo.setIpLogin(((InetSocketAddress) this.client.getChannel().remoteAddress()).getAddress().getHostAddress());
+        }
+
         this.isOnline(true);
 
         this.messenger.connectionChanged(this, true, false);
@@ -161,17 +165,24 @@ public class Habbo implements Runnable
             }
             if (this.getHabboInfo().getRoomQueueId() > 0)
             {
-                Room room =  Emulator.getGameEnvironment().getRoomManager().getRoom(this.getHabboInfo().getRoomQueueId());
+                Room room = Emulator.getGameEnvironment().getRoomManager().getRoom(this.getHabboInfo().getRoomQueueId());
 
                 if (room != null)
                 {
                     room.removeFromQueue(this);
                 }
             }
+        }
+        catch (Exception e)
+        {
+            Emulator.getLogging().logErrorLine(e);
+        }
 
+        try
+        {
             Emulator.getGameEnvironment().getGuideManager().userLogsOut(this);
-            this.needsUpdate(true);
             this.isOnline(false);
+            this.needsUpdate(true);
             this.run();
             this.getInventory().dispose();
             this.messenger.connectionChanged(this, false, false);
@@ -520,21 +531,24 @@ public class Habbo implements Runnable
 
     public void mute(int seconds)
     {
-        int remaining = this.habboStats.addMuteTime(seconds);
-        this.client.sendResponse(new FloodCounterComposer(remaining));
-        this.client.sendResponse(new MutedWhisperComposer(remaining));
-
-        Room room = this.client.getHabbo().getHabboInfo().getCurrentRoom();
-        if (room != null)
+        if (!this.hasPermission("acc_no_mute"))
         {
-            room.sendComposer(new RoomUserIgnoredComposer(this, RoomUserIgnoredComposer.MUTED).compose());
+            int remaining = this.habboStats.addMuteTime(seconds);
+            this.client.sendResponse(new FloodCounterComposer(remaining));
+            this.client.sendResponse(new MutedWhisperComposer(remaining));
+
+            Room room = this.client.getHabbo().getHabboInfo().getCurrentRoom();
+            if (room != null)
+            {
+                room.sendComposer(new RoomUserIgnoredComposer(this, RoomUserIgnoredComposer.MUTED).compose());
+            }
         }
     }
 
     public void unMute()
     {
         this.habboStats.unMute();
-        this.client.sendResponse(new FloodCounterComposer(0));
+        this.client.sendResponse(new FloodCounterComposer(3));
         Room room = this.client.getHabbo().getHabboInfo().getCurrentRoom();
         if (room != null)
         {

@@ -326,6 +326,7 @@ public class PluginManager
     {
         ItemManager.RECYCLER_ENABLED = Emulator.getConfig().getBoolean("hotel.catalog.recycler.enabled");
         MarketPlace.MARKETPLACE_ENABLED = Emulator.getConfig().getBoolean("hotel.marketplace.enabled");
+        MarketPlace.MARKETPLACE_CURRENCY = Emulator.getConfig().getInt("hotel.marketplace.currency");
         Messenger.SAVE_PRIVATE_CHATS = Emulator.getConfig().getBoolean("save.private.chats", false);
         PacketManager.DEBUG_SHOW_PACKETS = Emulator.getConfig().getBoolean("debug.show.packets");
         Room.HABBO_CHAT_DELAY = Emulator.getConfig().getBoolean("room.chat.delay", false);
@@ -336,7 +337,7 @@ public class PluginManager
         WordFilter.ENABLED_FRIENDCHAT = Emulator.getConfig().getBoolean("hotel.wordfilter.messenger");
 
         BotManager.MINIMUM_CHAT_SPEED = Emulator.getConfig().getInt("hotel.bot.chat.minimum.interval");
-        HabboInventory.MAXIMUM_ITEMS = Emulator.getConfig().getInt("inventory.max.items");
+        HabboInventory.MAXIMUM_ITEMS = Emulator.getConfig().getInt("hotel.inventory.max.items");
         Messenger.MAXIMUM_FRIENDS = Emulator.getConfig().getInt("hotel.max.friends");
         Room.MAXIMUM_BOTS = Emulator.getConfig().getInt("hotel.max.bots.room");
         Room.MAXIMUM_PETS = Emulator.getConfig().getInt("hotel.pets.max.room");

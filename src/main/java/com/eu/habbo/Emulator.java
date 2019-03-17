@@ -37,7 +37,7 @@ public final class Emulator
     /**
      * Minor version of the emulator.
      */
-    public final static int MINOR = 9;
+    public final static int MINOR = 10;
 
     /**
      * Stable build version of the emulator.
@@ -181,7 +181,7 @@ public final class Emulator
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-            while (true)
+            while (!isShuttingDown && isReady)
             {
                 try
                 {
@@ -275,7 +275,11 @@ public final class Emulator
         catch (Exception e) {}
 
         Emulator.getLogging().logShutdownLine("Stopped Arcturus Emulator " + version + "...");
-        Emulator.getDatabase().dispose();
+
+        if (Emulator.database != null)
+        {
+            Emulator.getDatabase().dispose();
+        }
         Emulator.stopped = true;
 
         try
