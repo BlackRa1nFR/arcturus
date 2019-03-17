@@ -149,7 +149,7 @@ public class Incoming
     public static final int RequestAchievementsEvent = 3047; // 219
     public static final int GuildChangeColorsEvent = 1131; // 1764
     public static final int RequestInventoryBadgesEvent = 1723; // 2769
-    public static final int TestInventoryEvent = 2716; // 3500
+    //public static final int TestInventoryEvent = 2716; // 3500
     public static final int RequestPetBreedsEvent = 171; // 1756
     public static final int GuildChangeBadgeEvent = 1088; // 1991
     public static final int ModToolBanEvent = -1; //! Invalid Message ID: -1

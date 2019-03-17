@@ -45,6 +45,7 @@ public class RoomUnit
     public boolean sitUpdate = false;
     public boolean isTeleporting = false;
     public boolean isKicked = false;
+    private boolean statusUpdate = false;
 
     private final ConcurrentHashMap<RoomUnitStatus, String> status;
     private final THashMap<String, Object> cacheable;
@@ -575,6 +576,16 @@ public class RoomUnit
     public void clearStatus()
     {
         this.status.clear();
+    }
+
+    public void statusUpdate(boolean update)
+    {
+        this.statusUpdate = update;
+    }
+
+    public boolean needsStatusUpdate()
+    {
+        return this.statusUpdate;
     }
 
     public TMap<String, Object> getCacheable()

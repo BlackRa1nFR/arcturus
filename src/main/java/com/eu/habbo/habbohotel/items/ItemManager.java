@@ -28,6 +28,7 @@ import com.eu.habbo.habbohotel.items.interactions.wired.effects.*;
 import com.eu.habbo.habbohotel.items.interactions.wired.extra.WiredExtraRandom;
 import com.eu.habbo.habbohotel.items.interactions.wired.extra.WiredExtraUnseen;
 import com.eu.habbo.habbohotel.items.interactions.wired.triggers.*;
+import com.eu.habbo.habbohotel.items.interactions.wired.extra.WiredBlob;
 import com.eu.habbo.habbohotel.users.Habbo;
 import com.eu.habbo.habbohotel.users.HabboItem;
 import com.eu.habbo.messages.outgoing.inventory.AddHabboItemComposer;
@@ -145,7 +146,7 @@ public class ItemManager
         this.interactionsList.add(new ItemInteraction("room_o_matic",           InteractionRoomOMatic.class));
         this.interactionsList.add(new ItemInteraction("effect_tile",            InteractionEffectTile.class));
         this.interactionsList.add(new ItemInteraction("sticky_pole",            InteractionStickyPole.class));
-
+        this.interactionsList.add(new ItemInteraction("trap",                   InteractionTrap.class));
         /*
             Wireds
         */
@@ -257,7 +258,7 @@ public class ItemManager
              */
             this.interactionsList.add(new ItemInteraction("wf_xtra_random", WiredExtraRandom.class));
             this.interactionsList.add(new ItemInteraction("wf_xtra_unseen", WiredExtraUnseen.class));
-
+            this.interactionsList.add(new ItemInteraction("wf_blob", WiredBlob.class));
             /*
                 Highscores
              */

@@ -3,6 +3,7 @@ package com.eu.habbo.habbohotel.games;
 import com.eu.habbo.Emulator;
 import com.eu.habbo.habbohotel.achievements.AchievementManager;
 import com.eu.habbo.habbohotel.items.interactions.InteractionWiredHighscore;
+import com.eu.habbo.habbohotel.items.interactions.wired.extra.WiredBlob;
 import com.eu.habbo.habbohotel.rooms.Room;
 import com.eu.habbo.habbohotel.users.Habbo;
 import com.eu.habbo.habbohotel.users.HabboItem;
@@ -188,6 +189,12 @@ public abstract class Game implements Runnable
         }
 
         WiredHandler.handle(WiredTriggerType.GAME_STARTS, null, this.room, new Object[]{this});
+
+        for (HabboItem item : this.room.getRoomSpecialTypes().getItemsOfType(WiredBlob.class))
+        {
+            item.setExtradata("0");
+            room.updateItem(item);
+        }
     }
 
     /**

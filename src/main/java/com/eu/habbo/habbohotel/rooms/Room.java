@@ -11,6 +11,7 @@ import com.eu.habbo.habbohotel.items.FurnitureType;
 import com.eu.habbo.habbohotel.items.ICycleable;
 import com.eu.habbo.habbohotel.items.Item;
 import com.eu.habbo.habbohotel.items.interactions.*;
+import com.eu.habbo.habbohotel.items.interactions.wired.extra.WiredBlob;
 import com.eu.habbo.habbohotel.items.interactions.games.InteractionGameGate;
 import com.eu.habbo.habbohotel.items.interactions.games.InteractionGameScoreboard;
 import com.eu.habbo.habbohotel.items.interactions.games.InteractionGameTimer;
@@ -1827,7 +1828,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
 
     private boolean cycleRoomUnit(RoomUnit unit, RoomUnitType type)
     {
-        boolean update = false;
+        boolean update = unit.needsStatusUpdate();
         if (unit.hasStatus(RoomUnitStatus.SIGN))
         {
             sendComposer(new RoomUserStatusComposer(unit).compose());
@@ -1923,6 +1924,11 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
                     update = true;
                 }
             }
+        }
+
+        if (update)
+        {
+            unit.statusUpdate(false);
         }
 
         return update;
@@ -2497,7 +2503,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
 
     public int getUserCount()
     {
-		return this.currentHabbos.size();
+        return this.currentHabbos.size();
     }
 
     public ConcurrentHashMap<Integer, Habbo> getCurrentHabbos()
@@ -2759,6 +2765,10 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
             {
                 this.roomSpecialTypes.addUndefined(item);
             }
+            else if (item instanceof WiredBlob)
+            {
+                this.roomSpecialTypes.addUndefined(item);
+            }
         }
     }
 
@@ -2998,7 +3008,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
         items.addAll(this.roomSpecialTypes.getEffects());
         items.addAll(this.roomSpecialTypes.getConditions());*/
 
-            return items;
+        return items;
 
     }
 
@@ -3028,13 +3038,13 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
 
     public void addHabbo(Habbo habbo)
     {
-		synchronized (this.roomUnitLock)
-		{
-			habbo.getRoomUnit().setId(this.unitCounter);
-			this.currentHabbos.put(habbo.getHabboInfo().getId(), habbo);
-			this.unitCounter++;
-			this.updateDatabaseUserCount();
-		}
+        synchronized (this.roomUnitLock)
+        {
+            habbo.getRoomUnit().setId(this.unitCounter);
+            this.currentHabbos.put(habbo.getHabboInfo().getId(), habbo);
+            this.unitCounter++;
+            this.updateDatabaseUserCount();
+        }
     }
 
     public void kickHabbo(Habbo habbo, boolean alert)
@@ -3685,7 +3695,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
             for(RoomTile tile : lockedTiles)
             {
                 if(tile.x == item.getX() &&
-                   tile.y == item.getY())
+                        tile.y == item.getY())
                 {
                     found = true;
                     break;
@@ -4507,6 +4517,8 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
 
         if(habbo != null)
         {
+            habbo.getRoomUnit().setRightsLevel(RoomRightLevels.NONE);
+            habbo.getRoomUnit().removeStatus(RoomUnitStatus.FLAT_CONTROL);
             this.refreshRightsForHabbo(habbo);
         }
     }
@@ -4587,6 +4599,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
         habbo.getClient().sendResponse(new RoomRightsComposer(flatCtrl));
         habbo.getRoomUnit().setStatus(RoomUnitStatus.FLAT_CONTROL, flatCtrl.level + "");
         habbo.getRoomUnit().setRightsLevel(flatCtrl);
+        habbo.getRoomUnit().statusUpdate(true);
 
         if (flatCtrl.equals(RoomRightLevels.MODERATOR))
         {
