@@ -11,7 +11,7 @@ Targeting PRODUCTION-201611291003-338511768
 Targeting PRODUCTION-201709192204-203982672
 
 ### Extra Features in Arcturus Fork ###
-- Super special features
+- Group Forums (Credits to Mania.gg)
 
 ### Contributing ###
 
