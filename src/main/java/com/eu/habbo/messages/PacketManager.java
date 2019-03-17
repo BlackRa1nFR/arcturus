@@ -45,6 +45,7 @@ import com.eu.habbo.messages.incoming.wired.*;
 import com.eu.habbo.plugin.EventHandler;
 import com.eu.habbo.plugin.events.emulator.EmulatorConfigUpdatedEvent;
 import gnu.trove.map.hash.THashMap;
+import com.eu.habbo.messages.incoming.guilds.forums.*;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -480,7 +481,15 @@ public class PacketManager
         this.registerHandler(Incoming.GuildConfirmRemoveMemberEvent,            GuildConfirmRemoveMemberEvent.class);
         this.registerHandler(Incoming.GuildRemoveFavoriteEvent,                 GuildRemoveFavoriteEvent.class);
         this.registerHandler(Incoming.GuildDeleteEvent,                         GuildDeleteEvent.class);
-        //this.registerHandler(Incoming.GetHabboGuildBadgesMessageEvent, GetHabboGuildBadgesMessageEvent.class);
+        this.registerHandler(Incoming.GuildForumListEvent,                      GuildForumListEvent.class);
+        this.registerHandler(Incoming.GuildForumThreadsEvent,                   GuildForumThreadsEvent.class);
+        this.registerHandler(Incoming.GuildForumDataEvent,                      GuildForumDataEvent.class);
+        this.registerHandler(Incoming.GuildForumPostThreadEvent,                GuildForumPostThreadEvent.class);
+        this.registerHandler(Incoming.GuildForumUpdateSettingsEvent,            GuildForumUpdateSettingsEvent.class);
+        this.registerHandler(Incoming.GuildForumThreadsMessagesEvent,           GuildForumThreadsMessagesEvent.class);
+        this.registerHandler(Incoming.GuildForumModerateMessageEvent,           GuildForumModerateMessageEvent.class);
+        this.registerHandler(Incoming.GuildForumModerateThreadEvent,            GuildForumModerateThreadEvent.class);
+        this.registerHandler(Incoming.GuildForumThreadUpdateEvent,              GuildForumThreadUpdateEvent.class);
     }
 
     void registerPets() throws Exception
