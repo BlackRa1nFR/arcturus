@@ -2,9 +2,9 @@ package com.eu.habbo.habbohotel.rooms;
 
 public enum RoomUnitStatus
 {
-    MOVE("mv"),
-    SIT("sit"),
-    LAY("lay"),
+    MOVE("mv", true),
+    SIT("sit", true),
+    LAY("lay", true),
     FLAT_CONTROL("flatctrl"),
     SIGN("sign"),
     GESTURE("gst"),
@@ -13,14 +13,14 @@ public enum RoomUnitStatus
 
     DIP("dip"),
     EAT("eat"),
-    BEG("beg"),
-    DEAD("ded"),
-    JUMP("jmp"),
-    PLAY("pla"),
+    BEG("beg", true),
+    DEAD("ded", true),
+    JUMP("jmp", true),
+    PLAY("pla", true),
     SPEAK("spk"),
     CROAK("crk"),
     RELAX("rlx"),
-    WINGS("wng"),
+    WINGS("wng", true),
     FLAME("flm"),
     RIP("rip"),
     GROW("grw"),
@@ -39,10 +39,18 @@ public enum RoomUnitStatus
     JUMP_OUT("jmp-out");
 
     public final String key;
+    public final boolean removeWhenWalking;
 
     RoomUnitStatus(String key)
     {
         this.key = key;
+        this.removeWhenWalking = false;
+    }
+
+    RoomUnitStatus(String key, boolean removeWhenWalking)
+    {
+        this.key = key;
+        this.removeWhenWalking = removeWhenWalking;
     }
 
     @Override

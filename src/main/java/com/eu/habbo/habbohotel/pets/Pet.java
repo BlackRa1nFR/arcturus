@@ -177,7 +177,7 @@ public class Pet implements ISerialize, Runnable
             {
                 if (this.id > 0)
                 {
-                    try (PreparedStatement statement = connection.prepareStatement("UPDATE users_pets SET room_id = ?, experience = ?, energy = ?, respect = ?, x = ?, y = ?, z = ?, rot = ?, hunger = ?, thirst = ?, happyness = ? WHERE id = ?"))
+                    try (PreparedStatement statement = connection.prepareStatement("UPDATE users_pets SET room_id = ?, experience = ?, energy = ?, respect = ?, x = ?, y = ?, z = ?, rot = ?, hunger = ?, thirst = ?, happyness = ?, created = ? WHERE id = ?"))
                     {
                         statement.setInt(1, (this.room == null ? 0 : this.room.getId()));
                         statement.setInt(2, this.experience);
@@ -190,7 +190,8 @@ public class Pet implements ISerialize, Runnable
                         statement.setInt(9, this.levelHunger);
                         statement.setInt(10, this.levelThirst);
                         statement.setInt(11, this.happyness);
-                        statement.setInt(12, this.id);
+                        statement.setInt(12, this.created);
+                        statement.setInt(13, this.id);
                         statement.execute();
                     }
                 }
@@ -614,6 +615,7 @@ public class Pet implements ISerialize, Runnable
     public void freeCommand()
     {
         this.task = null;
+        this.roomUnit.setGoalLocation(this.getRoomUnit().getCurrentLocation());
         this.roomUnit.clearStatus();
         this.roomUnit.setCanWalk(true);
         this.say(this.petData.randomVocal(PetVocalsType.GENERIC_NEUTRAL));

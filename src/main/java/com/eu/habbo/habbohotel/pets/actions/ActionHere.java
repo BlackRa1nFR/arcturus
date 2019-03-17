@@ -4,6 +4,7 @@ import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.pets.PetAction;
 import com.eu.habbo.habbohotel.pets.PetTasks;
 import com.eu.habbo.habbohotel.pets.PetVocalsType;
+import com.eu.habbo.habbohotel.rooms.RoomUnitStatus;
 import com.eu.habbo.habbohotel.users.Habbo;
 
 public class ActionHere extends PetAction
@@ -11,6 +12,8 @@ public class ActionHere extends PetAction
     public ActionHere()
     {
         super(PetTasks.HERE, false);
+
+        this.statusToRemove.add(RoomUnitStatus.DEAD);
     }
 
     @Override

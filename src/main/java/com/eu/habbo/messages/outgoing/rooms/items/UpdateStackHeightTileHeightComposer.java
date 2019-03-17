@@ -13,11 +13,11 @@ public class UpdateStackHeightTileHeightComposer extends MessageComposer
     public UpdateStackHeightTileHeightComposer(HabboItem item, double height)
     {
         this.item = item;
-
-        if(height * 100 < 999)
+        this.height = (int)height;
+        /*if(height * 100 < 999)
             this.height = (int) height * 100;
         else
-            this.height = 999;
+            this.height = 999;*/
     }
 
     @Override

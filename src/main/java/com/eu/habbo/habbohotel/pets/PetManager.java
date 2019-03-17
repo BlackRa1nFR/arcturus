@@ -214,7 +214,14 @@ public class PetManager
             {
                 if(set.getInt("pet_id") >= 0)
                 {
-                    this.petData.get(set.getInt("pet_id")).petVocals.get(PetVocalsType.valueOf(set.getString("type").toUpperCase())).add(new PetVocal(set.getString("message")));
+                    if (this.petData.containsKey(set.getInt("pet_id")))
+                    {
+                        this.petData.get(set.getInt("pet_id")).petVocals.get(PetVocalsType.valueOf(set.getString("type").toUpperCase())).add(new PetVocal(set.getString("message")));
+                    }
+                    else
+                    {
+                        Emulator.getLogging().logErrorLine("Missing pet_actions table entry for pet id " + set.getInt("pet_id"));
+                    }
                 }
                 else
                 {

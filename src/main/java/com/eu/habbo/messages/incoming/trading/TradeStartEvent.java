@@ -22,19 +22,15 @@ public class TradeStartEvent extends MessageHandler
             {
                 Habbo targetUser = room.getHabboByRoomUnitId(userId);
 
-                if (this.client.getHabbo().hasPermission("acc_trade_anywhere"))
-                {
-                    room.startTrade(this.client.getHabbo(), targetUser);
-                    return;
-                }
+                boolean tradeAnywhere = this.client.getHabbo().hasPermission("acc_trade_anywhere");
 
-                if (!RoomTrade.TRADING_ENABLED)
+                if (!RoomTrade.TRADING_ENABLED && !tradeAnywhere)
                 {
                     this.client.sendResponse(new TradeStartFailComposer(TradeStartFailComposer.HOTEL_TRADING_NOT_ALLOWED));
                     return;
                 }
 
-                if (room.getTradeMode() == 0 || (room.getTradeMode() == 1 && this.client.getHabbo().getHabboInfo().getId() != room.getOwnerId()))
+                if ((room.getTradeMode() == 0 || (room.getTradeMode() == 1 && this.client.getHabbo().getHabboInfo().getId() != room.getOwnerId())) && !tradeAnywhere)
                 {
                     this.client.sendResponse(new TradeStartFailComposer(TradeStartFailComposer.ROOM_TRADING_NOT_ALLOWED));
                     return;

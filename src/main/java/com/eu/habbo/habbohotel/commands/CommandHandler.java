@@ -3,6 +3,8 @@ package com.eu.habbo.habbohotel.commands;
 import com.eu.habbo.Emulator;
 import com.eu.habbo.core.CommandLog;
 import com.eu.habbo.habbohotel.gameclients.GameClient;
+import com.eu.habbo.habbohotel.permissions.Permission;
+import com.eu.habbo.habbohotel.permissions.PermissionSetting;
 import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.pets.PetCommand;
@@ -38,6 +40,7 @@ public class CommandHandler
         addCommand(new BanCommand());
         addCommand(new BlockAlertCommand());
         addCommand(new BotsCommand());
+        addCommand(new CalendarCommand());
         addCommand(new ChangeNameCommand());
         addCommand(new ChatTypeCommand());
         addCommand(new CommandsCommand());
@@ -300,14 +303,14 @@ public class CommandHandler
         List<Command> allowedCommands = new ArrayList<Command>();
         if (Emulator.getGameEnvironment().getPermissionsManager().rankExists(rankId))
         {
-            Collection<String> permissions = Emulator.getGameEnvironment().getPermissionsManager().getRank(rankId).getPermissions().keySet();
+            THashMap<String, Permission> permissions = Emulator.getGameEnvironment().getPermissionsManager().getRank(rankId).getPermissions();
 
             for (Command command : commands.values())
             {
                 if (allowedCommands.contains(command))
                     continue;
 
-                if (permissions.contains(command.permission))
+                if (permissions.contains(command.permission) && permissions.get(command.permission).setting != PermissionSetting.DISALLOWED)
                 {
                     allowedCommands.add(command);
                 }

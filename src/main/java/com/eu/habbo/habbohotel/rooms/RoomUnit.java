@@ -20,8 +20,7 @@ import com.eu.habbo.util.pathfinding.Rotation;
 import gnu.trove.map.TMap;
 import gnu.trove.map.hash.THashMap;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RoomUnit
@@ -116,17 +115,15 @@ public class RoomUnit
                 }
             }
 
-            if (this.status.containsKey(RoomUnitStatus.MOVE))
+            this.status.remove(RoomUnitStatus.SIT);
+            this.status.remove(RoomUnitStatus.MOVE);
+            this.status.remove(RoomUnitStatus.LAY);
+            for (Map.Entry<RoomUnitStatus, String> s : this.status.entrySet())
             {
-                this.status.remove(RoomUnitStatus.MOVE);
-            }
-            if (this.status.containsKey(RoomUnitStatus.LAY))
-            {
-                this.status.remove(RoomUnitStatus.LAY);
-            }
-            if (this.status.containsKey(RoomUnitStatus.SIT))
-            {
-                this.status.remove(RoomUnitStatus.SIT);
+                if (s.getKey().removeWhenWalking)
+                {
+                    this.status.remove(s);
+                }
             }
 
             if (this.path == null || this.path.isEmpty())
@@ -462,7 +459,10 @@ public class RoomUnit
 
     public void setGoalLocation(RoomTile goalLocation)
     {
-        this.setGoalLocation(goalLocation, false);
+        if (goalLocation.state == RoomTileState.OPEN)
+        {
+            this.setGoalLocation(goalLocation, false);
+        }
     }
 
     public void setGoalLocation(RoomTile goalLocation, boolean noReset)

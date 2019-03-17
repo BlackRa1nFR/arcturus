@@ -1,5 +1,6 @@
 package com.eu.habbo.messages.incoming.rooms;
 
+import com.eu.habbo.habbohotel.permissions.Permission;
 import com.eu.habbo.habbohotel.rooms.Room;
 import com.eu.habbo.habbohotel.rooms.RoomRightLevels;
 import com.eu.habbo.habbohotel.rooms.RoomUnitStatus;
@@ -19,7 +20,7 @@ public class RoomRemoveAllRightsEvent extends MessageHandler
         if(room == null || room.getId() != this.packet.readInt())
             return;
 
-        if(room.getOwnerId() == this.client.getHabbo().getHabboInfo().getId() || this.client.getHabbo().hasPermission("acc_anyroomowner"))
+        if(room.getOwnerId() == this.client.getHabbo().getHabboInfo().getId() || this.client.getHabbo().hasPermission(Permission.ACC_ANYROOMOWNER))
         {
             room.getRights().forEach(new TIntProcedure()
             {
