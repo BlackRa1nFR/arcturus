@@ -19,7 +19,7 @@ public class HotelViewExpiringCatalogPageCommposer extends MessageComposer
     @Override
     public ServerMessage compose()
     {
-        this.response.init(Outgoing.HotelViewExpiringCatalogPageCommposer);
+        this.response.init(Outgoing.HotelViewExpiringCatalogPageComposer);
         this.response.appendString(this.page.getCaption());
         this.response.appendInt(this.page.getId());
         this.response.appendString(this.image);
