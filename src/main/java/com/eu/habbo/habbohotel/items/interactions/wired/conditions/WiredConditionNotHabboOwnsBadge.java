@@ -8,14 +8,14 @@ import com.eu.habbo.habbohotel.users.Habbo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class WiredConditionNotHabboHasCredits extends WiredConditionNotHabboHasEffect
+public class WiredConditionNotHabboOwnsBadge extends WiredConditionNotHabboWearsBadge
 {
-    public WiredConditionNotHabboHasCredits(ResultSet set, Item baseItem) throws SQLException
+    public WiredConditionNotHabboOwnsBadge(ResultSet set, Item baseItem) throws SQLException
     {
         super(set, baseItem);
     }
 
-    public WiredConditionNotHabboHasCredits(int id, int userId, Item item, String extradata, int limitedStack, int limitedSells)
+    public WiredConditionNotHabboOwnsBadge(int id, int userId, Item item, String extradata, int limitedStack, int limitedSells)
     {
         super(id, userId, item, extradata, limitedStack, limitedSells);
     }
@@ -27,7 +27,7 @@ public class WiredConditionNotHabboHasCredits extends WiredConditionNotHabboHasE
 
         if (habbo != null)
         {
-            return habbo.getHabboInfo().getCredits() < this.effectId;
+            return !habbo.getInventory().getBadgesComponent().hasBadge(this.badge);
         }
 
         return false;

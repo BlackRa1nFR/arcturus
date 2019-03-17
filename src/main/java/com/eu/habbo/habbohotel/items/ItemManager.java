@@ -250,7 +250,8 @@ public class ItemManager
         this.interactionsList.add(new ItemInteraction("wf_cnd_not_habbo_has_diamonds",   WiredConditionNotHabboHasDiamonds.class));
         this.interactionsList.add(new ItemInteraction("wf_cnd_not_habbo_has_credits",    WiredConditionNotHabboHasCredits.class));
         this.interactionsList.add(new ItemInteraction("wf_cnd_not_habbo_has_duckets",    WiredConditionNotHabboHasDuckets.class));
-
+        this.interactionsList.add(new ItemInteraction("wf_cnd_habbo_owns_badge",        WiredConditionHabboOwnsBadge.class));
+        this.interactionsList.add(new ItemInteraction("wf_cnd_not_habbo_owns_badge",        WiredConditionNotHabboOwnsBadge.class));
             /*
                 Extra
              */
