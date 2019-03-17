@@ -2,7 +2,7 @@
 
 # Arcturus Emulator #
 
-Targeting PRODUCTION-201611291003-338511768
+Targeting PRODUCTION-201709192204-203982672
 
 ### Latest Arcturus Version ###
 1.16.0
