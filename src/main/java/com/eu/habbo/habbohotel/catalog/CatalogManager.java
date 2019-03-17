@@ -393,7 +393,7 @@ public class CatalogManager
                     {
                         page.addOfferId(item.getOfferId());
 
-                        this.offerDefs.put(item.getOfferId(), page.getId());
+                        this.offerDefs.put(item.getOfferId(), item.getId());
                     }
                 }
                 else

@@ -55,24 +55,23 @@ public class CatalogBuyItemEvent extends MessageHandler
 
         CatalogPage page = null;
 
-        if(pageId == -12345678)
+        if(pageId == -12345678 || pageId == -1)
         {
-            for(CatalogPage p : Emulator.getGameEnvironment().getCatalogManager().getCatalogPages(-1, this.client.getHabbo()))
+            CatalogItem searchedItem = Emulator.getGameEnvironment().getCatalogManager().getCatalogItem(itemId);
+
+            if (searchedItem.getOfferId() > 0)
             {
-                if(p.getCatalogItem(itemId) != null)
+                page = Emulator.getGameEnvironment().getCatalogManager().getCatalogPage(searchedItem.getPageId());
+
+                if (page.getCatalogItem(itemId).getOfferId() <= 0)
                 {
-                    page = p;
-                    break;
+                    page = null;
                 }
                 else
                 {
-                    for(CatalogPage p2 : Emulator.getGameEnvironment().getCatalogManager().getCatalogPages(p.getId(), this.client.getHabbo()))
+                    if (page.getRank() > this.client.getHabbo().getHabboInfo().getRank().getId())
                     {
-                        if(p2.getCatalogItem(itemId) != null)
-                        {
-                            page = p2;
-                            break;
-                        }
+                        page = null;
                     }
                 }
             }

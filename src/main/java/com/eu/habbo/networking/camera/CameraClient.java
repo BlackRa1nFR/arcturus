@@ -57,12 +57,10 @@ public class CameraClient
         {
             CameraClient.attemptReconnect = false;
             CameraClient.channel = channelFuture.channel();
-            System.out.println("[" + Logging.ANSI_GREEN + "CAMERA" + Logging.ANSI_RESET + "] Connected to the Camera Server. Attempting to login...");
             sendMessage(new CameraLoginComposer());
         }
         else
         {
-            System.out.println("[" + Logging.ANSI_RED + "CAMERA" + Logging.ANSI_RESET + "] Failed to connect to the Camera Server. Server unreachable.");
             CameraClient.channel = null;
             CameraClient.channelFuture.channel().close();
             CameraClient.channelFuture = null;

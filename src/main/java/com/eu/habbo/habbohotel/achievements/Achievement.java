@@ -101,4 +101,9 @@ public class Achievement
 
         return null;
     }
+
+    public AchievementLevel firstLevel()
+    {
+        return this.levels.get(1);
+    }
 }

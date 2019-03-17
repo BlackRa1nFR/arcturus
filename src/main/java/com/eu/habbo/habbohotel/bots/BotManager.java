@@ -22,6 +22,9 @@ public class BotManager
 {
     //Configuration. Loaded from database & updated accordingly.
     public static int MINIMUM_CHAT_SPEED = 7;
+    public static int MAXIMUM_CHAT_SPEED = 604800;
+    public static int MAXIMUM_CHAT_LENGTH = 120;
+    public static int MAXIMUM_NAME_LENGTH = 15;
 
     final private static THashMap<String, Class<? extends Bot>> botDefenitions = new THashMap<String, Class<? extends Bot>>();
 

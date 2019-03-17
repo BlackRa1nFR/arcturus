@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 public class Bot implements Runnable
 {
+    public static final String NO_CHAT_SET = "${bot.skill.chatter.configuration.text.placeholder}";
     /**
      * Bot id.
      */
@@ -563,6 +564,10 @@ public class Bot implements Runnable
         return this.chatRandom;
     }
 
+    public boolean hasChat()
+    {
+        return !this.chatLines.isEmpty();
+    }
     /**
      * @param chatRandom Sets wheter the chatter is randomly selected.
      */
@@ -585,8 +590,9 @@ public class Bot implements Runnable
      */
     public void setChatDelay(short chatDelay)
     {
-        this.chatDelay   = chatDelay;
+        this.chatDelay   = (short)Math.min(Math.max(chatDelay, BotManager.MINIMUM_CHAT_SPEED), BotManager.MAXIMUM_CHAT_SPEED);
         this.needsUpdate = true;
+        this.chatTimeOut = Emulator.getIntUnixTimestamp() + this.chatDelay;
     }
 
     /**

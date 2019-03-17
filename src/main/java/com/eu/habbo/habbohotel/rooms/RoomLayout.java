@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import org.w3c.dom.css.Rect;
 
 public class RoomLayout
 {
@@ -485,6 +486,11 @@ public class RoomLayout
             return false;
 
         return true;
+    }
+
+    public static boolean tileInSquare(Rectangle square, RoomTile tile)
+    {
+        return (square.contains(tile.x, tile.y));
     }
 
     public static boolean pointInSquare(int x1, int y1, int x2, int y2, int pointX, int pointY)

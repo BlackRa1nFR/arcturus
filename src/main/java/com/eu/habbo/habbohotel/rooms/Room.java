@@ -11,7 +11,6 @@ import com.eu.habbo.habbohotel.items.FurnitureType;
 import com.eu.habbo.habbohotel.items.ICycleable;
 import com.eu.habbo.habbohotel.items.Item;
 import com.eu.habbo.habbohotel.items.interactions.*;
-import com.eu.habbo.habbohotel.items.interactions.wired.extra.WiredBlob;
 import com.eu.habbo.habbohotel.items.interactions.games.InteractionGameGate;
 import com.eu.habbo.habbohotel.items.interactions.games.InteractionGameScoreboard;
 import com.eu.habbo.habbohotel.items.interactions.games.InteractionGameTimer;
@@ -20,6 +19,7 @@ import com.eu.habbo.habbohotel.items.interactions.games.battlebanzai.Interaction
 import com.eu.habbo.habbohotel.items.interactions.games.freeze.InteractionFreezeExitTile;
 import com.eu.habbo.habbohotel.items.interactions.games.tag.InteractionTagField;
 import com.eu.habbo.habbohotel.items.interactions.games.tag.InteractionTagPole;
+import com.eu.habbo.habbohotel.items.interactions.wired.extra.WiredBlob;
 import com.eu.habbo.habbohotel.messenger.MessengerBuddy;
 import com.eu.habbo.habbohotel.permissions.Permission;
 import com.eu.habbo.habbohotel.pets.*;
@@ -2769,6 +2769,10 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
             {
                 this.roomSpecialTypes.addUndefined(item);
             }
+            else if (item instanceof InteractionTent)
+            {
+                this.roomSpecialTypes.addUndefined(item);
+            }
         }
     }
 
@@ -2971,6 +2975,14 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
                     this.roomSpecialTypes.removeUndefined(item);
                 }
                 else if (item instanceof InteractionStickyPole)
+                {
+                    this.roomSpecialTypes.removeUndefined(item);
+                }
+                else if (item instanceof WiredBlob)
+                {
+                    this.roomSpecialTypes.removeUndefined(item);
+                }
+                else if (item instanceof InteractionTent)
                 {
                     this.roomSpecialTypes.removeUndefined(item);
                 }
@@ -3526,6 +3538,8 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
         ServerMessage prefixMessage = roomChatMessage.getHabbo().getHabboInfo().getRank().hasPrefix() ? new RoomUserNameChangedComposer(habbo, true).compose() : null;
         ServerMessage clearPrefixMessage = prefixMessage != null ? new RoomUserNameChangedComposer(habbo).compose() : null;
 
+        Rectangle show = this.roomSpecialTypes.tentAt(habbo.getRoomUnit().getCurrentLocation());
+
         if(chatType == RoomChatType.WHISPER)
         {
             if (roomChatMessage.getTargetHabbo() == null)
@@ -3571,13 +3585,13 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
             ServerMessage message = new RoomUserTalkComposer(roomChatMessage).compose();
             boolean noChatLimit = habbo.hasPermission("acc_chat_no_limit");
 
+
             for (Habbo h : this.getHabbos())
             {
-                if (h.getRoomUnit().getCurrentLocation().distance(habbo.getRoomUnit().getCurrentLocation()) <= this.chatDistance ||
-                        h.hasPermission("acc_chat_no_limit") ||
+                if ((h.getRoomUnit().getCurrentLocation().distance(habbo.getRoomUnit().getCurrentLocation()) <= this.chatDistance ||
                         h.equals(habbo) ||
                         this.hasRights(h) ||
-                        noChatLimit)
+                        noChatLimit) && (show == null || RoomLayout.tileInSquare(show, h.getRoomUnit().getCurrentLocation())))
                 {
                     if (!h.getHabboStats().ignoredUsers.contains(habbo.getHabboInfo().getId()))
                     {
@@ -3600,7 +3614,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
 
             for (Habbo h : this.getHabbos())
             {
-                if (!h.getHabboStats().ignoredUsers.contains(habbo.getHabboInfo().getId()))
+                if (!h.getHabboStats().ignoredUsers.contains(habbo.getHabboInfo().getId()) && (show == null || RoomLayout.tileInSquare(show, h.getRoomUnit().getCurrentLocation())))
                 {
                     if (prefixMessage != null){ h.getClient().sendResponse(prefixMessage); }
                     h.getClient().sendResponse(message);

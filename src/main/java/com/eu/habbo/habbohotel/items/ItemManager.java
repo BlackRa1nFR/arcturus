@@ -147,6 +147,7 @@ public class ItemManager
         this.interactionsList.add(new ItemInteraction("effect_tile",            InteractionEffectTile.class));
         this.interactionsList.add(new ItemInteraction("sticky_pole",            InteractionStickyPole.class));
         this.interactionsList.add(new ItemInteraction("trap",                   InteractionTrap.class));
+        this.interactionsList.add(new ItemInteraction("tent",                   InteractionTent.class));
         /*
             Wireds
         */

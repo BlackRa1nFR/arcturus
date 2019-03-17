@@ -30,6 +30,13 @@ import java.util.regex.Pattern;
 public final class Emulator
 {
     /**
+     * Official Arcturus Build Number For Stable
+     */
+    public final static int OFFICIALMAJOR = 1;
+    public final static int OFFICIALMINOR = 16;
+    public final static int OFFICIALBUILD = 0;
+
+    /**
      * Major version of the emulator.
      */
     public final static int MAJOR = 1;
@@ -153,7 +160,7 @@ public final class Emulator
                 Emulator.getThreading().run(new CameraClientAutoReconnect());
             }
 
-            Emulator.getLogging().logStart("Habbo Hotel Emulator has succesfully loaded.");
+            Emulator.getLogging().logStart("Arcturus Emulator has succesfully loaded.");
             Emulator.getLogging().logStart("You're running: " + Emulator.version);
             Emulator.getLogging().logStart("System launched in: " + (System.nanoTime() - startTime) / 1e6 + "ms. Using: " + (Runtime.getRuntime().availableProcessors() * 2) + " threads!");
             Emulator.getLogging().logStart("Memory: " + (runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024) + "/" + (runtime.freeMemory()) / (1024 * 1024) + "MB");
@@ -487,13 +494,18 @@ public final class Emulator
         return gameEnvironment.getRoomManager().getActiveRooms().size();
     }
 
+
     private static final String logo =
-            "                    _                          ______                 _       _             _ \n" +
-            "     /\\            | |                        |  ____|               | |     | |           | |\n" +
-            "    /  \\   _ __ ___| |_ _   _ _ __ _   _ ___  | |__   _ __ ___  _   _| | __ _| |_ ___  _ __| |\n" +
-            "   / /\\ \\ | '__/ __| __| | | | '__| | | / __| |  __| | '_ ` _ \\| | | | |/ _` | __/ _ \\| '__| |\n" +
-            "  / ____ \\| | | (__| |_| |_| | |  | |_| \\__ \\ | |____| | | | | | |_| | | (_| | || (_) | |  |_|\n" +
-            " /_/    \\_\\_|  \\___|\\__|\\__,_|_|   \\__,_|___/ |______|_| |_| |_|\\__,_|_|\\__,_|\\__\\___/|_|  (_)\n" +
-            "                                                                                              \n" +
-            "                                                                                              ";
+            "                                            \n"+
+            "    ___              __                       \n" +
+            "   /   |  __________/ /___  _________  _______\n" +
+            "  / /| | / ___/ ___/ __/ / / / ___/ / / / ___/\n" +
+            " / ___ |/ /  / /__/ /_/ /_/ / /  / /_/ (__  )\n" +
+            "/_/  |_/_/   \\ ___\\ __\\ __,_/_/ /___,_/____/\n" +
+            "                                          \n" +
+            "                                          \n" +
+            "Arcturus Fork is currently targeting build " + MAJOR + "." + MINOR + "." + BUILD + "\n" +
+            "Arcturus Official is currently at build " + OFFICIALMAJOR + "." + OFFICIALMINOR + "." + OFFICIALBUILD + "\n" +
+            "                                            ";
+
 }

@@ -24,6 +24,7 @@ import com.eu.habbo.habbohotel.wired.WiredTriggerType;
 import gnu.trove.map.hash.THashMap;
 import gnu.trove.set.hash.THashSet;
 
+import java.awt.*;
 import java.util.Map;
 
 public class RoomSpecialTypes
@@ -929,5 +930,19 @@ public class RoomSpecialTypes
         this.freezeExitTile.clear();
         this.undefined.clear();
         this.cycleTasks.clear();
+    }
+
+    public Rectangle tentAt(RoomTile location)
+    {
+        for (HabboItem item : this.getItemsOfType(InteractionTent.class))
+        {
+            Rectangle rectangle = RoomLayout.getRectangle(item.getX(), item.getY(), item.getBaseItem().getWidth(), item.getBaseItem().getLength(), item.getRotation());
+            if (RoomLayout.tileInSquare(rectangle, location))
+            {
+                return rectangle;
+            }
+        }
+
+        return null;
     }
 }
