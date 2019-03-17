@@ -97,7 +97,7 @@ public class PetPlaceEvent extends MessageHandler
 
         roomUnit.setLocation(tile);
         roomUnit.setZ(tile.getStackHeight());
-        roomUnit.getStatus().put("sit", "0");
+        roomUnit.setStatus(RoomUnitStatus.SIT, "0");
         roomUnit.setRoomUnitType(RoomUnitType.PET);
         if (playerTile != null)
         {

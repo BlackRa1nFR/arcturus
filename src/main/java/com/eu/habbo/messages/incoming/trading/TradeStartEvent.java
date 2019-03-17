@@ -3,6 +3,7 @@ package com.eu.habbo.messages.incoming.trading;
 import com.eu.habbo.Emulator;
 import com.eu.habbo.habbohotel.rooms.Room;
 import com.eu.habbo.habbohotel.rooms.RoomTrade;
+import com.eu.habbo.habbohotel.rooms.RoomUnitStatus;
 import com.eu.habbo.habbohotel.users.Habbo;
 import com.eu.habbo.messages.incoming.MessageHandler;
 import com.eu.habbo.messages.outgoing.trading.TradeStartFailComposer;
@@ -41,11 +42,11 @@ public class TradeStartEvent extends MessageHandler
 
                 if (targetUser != null)
                 {
-                    if (!this.client.getHabbo().getRoomUnit().getStatus().containsKey("trd"))
+                    if (!this.client.getHabbo().getRoomUnit().hasStatus(RoomUnitStatus.TRADING))
                     {
                         if (this.client.getHabbo().getHabboStats().allowTrade)
                         {
-                            if (!targetUser.getRoomUnit().getStatus().containsKey("trd"))
+                            if (!targetUser.getRoomUnit().hasStatus(RoomUnitStatus.TRADING))
                             {
                                 if (targetUser.getHabboStats().allowTrade)
                                 {

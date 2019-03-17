@@ -82,8 +82,6 @@ public class InteractionTeleport extends HabboItem
                 }
             }*/
 
-            super.onClick(client, room, objects);
-
             RoomTile tile = room.getLayout().getTileInFront(room.getLayout().getTile(this.getX(), this.getY()), this.getRotation());
             RoomTile teleportPosition = room.getLayout().getTile(getX(), getY());
 
@@ -162,7 +160,7 @@ public class InteractionTeleport extends HabboItem
         this.setExtradata("0");
     }
 
-    private boolean canUseTeleport(GameClient client, Room room)
+    protected boolean canUseTeleport(GameClient client, Room room)
     {
         if(!this.getExtradata().equals("0"))
             return false;

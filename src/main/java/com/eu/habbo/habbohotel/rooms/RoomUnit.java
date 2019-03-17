@@ -22,6 +22,7 @@ import gnu.trove.map.hash.THashMap;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RoomUnit
 {
@@ -46,7 +47,7 @@ public class RoomUnit
     public boolean isTeleporting = false;
     public boolean isKicked = false;
 
-    private final THashMap<String, String> status;
+    private final ConcurrentHashMap<RoomUnitStatus, String> status;
     private final THashMap<String, Object> cacheable;
     private RoomUserRotation bodyRotation = RoomUserRotation.NORTH;
     private RoomUserRotation headRotation = RoomUserRotation.NORTH;
@@ -67,7 +68,7 @@ public class RoomUnit
         this.id = 0;
         this.inRoom = false;
         this.canWalk = true;
-        this.status = new THashMap<String, String>();
+        this.status = new ConcurrentHashMap<>();
         this.cacheable = new THashMap<String, Object>();
         this.roomUnitType = RoomUnitType.UNKNOWN;
         this.bodyRotation = RoomUserRotation.NORTH;
@@ -86,10 +87,7 @@ public class RoomUnit
         this.startLocation = this.currentLocation;
         this.inRoom = false;
 
-        synchronized (this.status)
-        {
-            this.status.clear();
-        }
+        this.status.clear();
 
         this.cacheable.clear();
     }
@@ -98,7 +96,7 @@ public class RoomUnit
     {
         synchronized (this.status)
         {
-            this.status.remove("mv");
+            this.status.remove(RoomUnitStatus.MOVE);
             this.setGoalLocation(this.currentLocation);
         }
     }
@@ -112,23 +110,23 @@ public class RoomUnit
              */
             if (!this.isWalking() && !isKicked)
             {
-                if (this.status.remove("mv") == null)
+                if (this.status.remove(RoomUnitStatus.MOVE) == null)
                 {
                     return true;
                 }
             }
 
-            if (this.status.containsKey("mv"))
+            if (this.status.containsKey(RoomUnitStatus.MOVE))
             {
-                this.status.remove("mv");
+                this.status.remove(RoomUnitStatus.MOVE);
             }
-            if (this.status.containsKey("lay"))
+            if (this.status.containsKey(RoomUnitStatus.LAY))
             {
-                this.status.remove("lay");
+                this.status.remove(RoomUnitStatus.LAY);
             }
-            if (this.status.containsKey("sit"))
+            if (this.status.containsKey(RoomUnitStatus.SIT))
             {
-                this.status.remove("sit");
+                this.status.remove(RoomUnitStatus.SIT);
             }
 
             if (this.path == null || this.path.isEmpty())
@@ -173,9 +171,9 @@ public class RoomUnit
 
             Habbo habbo = room.getHabbo(this);
 
-            if (this.status.containsKey("ded"))
+            if (this.status.containsKey(RoomUnitStatus.DEAD))
             {
-                this.status.remove("ded");
+                this.status.remove(RoomUnitStatus.DEAD);
             }
 
             if (habbo != null)
@@ -222,7 +220,7 @@ public class RoomUnit
                     }
                     else
                     {
-                        this.status.remove("mv");
+                        this.status.remove(RoomUnitStatus.MOVE);
                         return false;
                     }
 
@@ -273,7 +271,7 @@ public class RoomUnit
                         this.setRotation(oldRotation);
                         this.tilesWalked--;
                         this.setGoalLocation(this.currentLocation);
-                        this.status.remove("mv");
+                        this.status.remove(RoomUnitStatus.MOVE);
                         room.sendComposer(new RoomUserStatusComposer(this).compose());
                         return false;
                     }
@@ -309,7 +307,7 @@ public class RoomUnit
             }
 
             this.previousLocation = this.currentLocation;
-            this.status.put("mv", next.x + "," + next.y + "," + zHeight);
+            this.setStatus(RoomUnitStatus.MOVE, next.x + "," + next.y + "," + zHeight);
             if (habbo != null)
             {
                 if (habbo.getHabboInfo().getRiding() != null)
@@ -318,7 +316,7 @@ public class RoomUnit
 
                     if (ridingUnit != null)
                     {
-                        ridingUnit.getStatus().put("mv", next.x + "," + next.y + "," + (zHeight - 1.0));
+                        ridingUnit.setStatus(RoomUnitStatus.MOVE, next.x + "," + next.y + "," + (zHeight - 1.0));
                     }
                 }
             }
@@ -541,14 +539,42 @@ public class RoomUnit
         return !isAtGoal() && this.canWalk;
     }
 
-    public synchronized THashMap<String, String> getStatus()
+    /*public synchronized ConcurrentHashMap<RoomUnitStatus, String> getStatus()
+    {
+        return this.status;
+    }*/
+
+    public String getStatus(RoomUnitStatus key)
+    {
+        return this.status.get(key);
+    }
+
+    public ConcurrentHashMap<RoomUnitStatus, String> getStatusMap()
     {
         return this.status;
     }
 
-    public synchronized boolean hasStatus(String key)
+    public void removeStatus(RoomUnitStatus key)
+    {
+        this.status.remove(key);
+    }
+
+    public void setStatus(RoomUnitStatus key, String value)
+    {
+        if (key != null && value != null)
+        {
+            this.status.put(key, value);
+        }
+    }
+
+    public boolean hasStatus(RoomUnitStatus key)
     {
         return this.status.containsKey(key);
+    }
+
+    public void clearStatus()
+    {
+        this.status.clear();
     }
 
     public TMap<String, Object> getCacheable()
@@ -628,12 +654,12 @@ public class RoomUnit
                 return;
         }
 
-        if (this.status.containsKey("lay"))
+        if (this.status.containsKey(RoomUnitStatus.LAY))
         {
             return;
         }
 
-        if (!this.status.containsKey("sit"))
+        if (!this.status.containsKey(RoomUnitStatus.SIT))
         {
             this.bodyRotation = (RoomUserRotation.values()[Rotation.Calculate(this.getX(), this.getY(), location.x, location.y)]);
         }

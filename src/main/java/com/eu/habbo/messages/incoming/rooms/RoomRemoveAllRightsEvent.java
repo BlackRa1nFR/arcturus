@@ -2,6 +2,7 @@ package com.eu.habbo.messages.incoming.rooms;
 
 import com.eu.habbo.habbohotel.rooms.Room;
 import com.eu.habbo.habbohotel.rooms.RoomRightLevels;
+import com.eu.habbo.habbohotel.rooms.RoomUnitStatus;
 import com.eu.habbo.habbohotel.users.Habbo;
 import com.eu.habbo.messages.incoming.MessageHandler;
 import com.eu.habbo.messages.outgoing.rooms.RoomRightsComposer;
@@ -30,7 +31,7 @@ public class RoomRemoveAllRightsEvent extends MessageHandler
                     if(habbo != null)
                     {
                         room.sendComposer(new RoomUserRemoveRightsComposer(room, value).compose());
-                        habbo.getRoomUnit().getStatus().remove("flatctrl");
+                        habbo.getRoomUnit().removeStatus(RoomUnitStatus.FLAT_CONTROL);
                         habbo.getClient().sendResponse(new RoomRightsComposer(RoomRightLevels.NONE));
                     }
 

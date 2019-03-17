@@ -9,7 +9,7 @@ import com.eu.habbo.habbohotel.messenger.MessengerBuddy;
 import com.eu.habbo.habbohotel.navigation.NavigatorFilterComparator;
 import com.eu.habbo.habbohotel.navigation.NavigatorFilterField;
 import com.eu.habbo.habbohotel.navigation.NavigatorManager;
-import com.eu.habbo.habbohotel.pets.AbstractPet;
+import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.pets.PetData;
 import com.eu.habbo.habbohotel.pets.PetTasks;
 import com.eu.habbo.habbohotel.polls.Poll;
@@ -507,6 +507,11 @@ public class RoomManager
         room.dispose();
     }
 
+    public void uncacheRoom(Room room)
+    {
+        this.activeRooms.remove(room.getId());
+    }
+
     public void voteForRoom(Habbo habbo, Room room)
     {
         if(habbo.getHabboInfo().getCurrentRoom() != null && room != null && habbo.getHabboInfo().getCurrentRoom() == room)
@@ -691,6 +696,7 @@ public class RoomManager
         if (habbo.getRoomUnit() == null)
             habbo.setRoomUnit(new RoomUnit());
 
+        habbo.getRoomUnit().clearStatus();
         if (habbo.getRoomUnit().getCurrentLocation() == null)
         {
             habbo.getRoomUnit().setLocation(room.getLayout().getDoorTile());
@@ -708,7 +714,7 @@ public class RoomManager
             return;
         }
 
-        habbo.getRoomUnit().getStatus().clear();
+        habbo.getRoomUnit().clearStatus();
         habbo.getRoomUnit().cmdTeleport = false;
 
         habbo.getClient().sendResponse(new RoomOpenComposer());
@@ -906,7 +912,7 @@ public class RoomManager
         if (!room.getCurrentPets().isEmpty())
         {
             habbo.getClient().sendResponse(new RoomPetComposer(room.getCurrentPets()));
-            for (AbstractPet pet : room.getCurrentPets().valueCollection())
+            for (Pet pet : room.getCurrentPets().valueCollection())
             {
                 habbo.getClient().sendResponse(new RoomUserStatusComposer(pet.getRoomUnit()));
             }

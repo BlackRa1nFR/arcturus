@@ -97,7 +97,7 @@ public class UsernameEvent extends MessageHandler
             }
         }
 
-        if (calendar)
+        if (calendar && Emulator.getConfig().getBoolean("hotel.calendar.enabled"))
         {
             this.client.sendResponse(new AdventCalendarDataComposer("xmas11", Emulator.getGameEnvironment().getCatalogManager().calendarRewards.size(), this.client.getHabbo().getHabboStats().loginStreak, this.client.getHabbo().getHabboStats().calendarRewardsClaimed, true));
             this.client.sendResponse(new NuxAlertComposer("openView/calendar"));

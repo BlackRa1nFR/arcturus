@@ -3,7 +3,7 @@ package com.eu.habbo.habbohotel.commands;
 import com.eu.habbo.Emulator;
 import com.eu.habbo.core.CommandLog;
 import com.eu.habbo.habbohotel.gameclients.GameClient;
-import com.eu.habbo.habbohotel.pets.AbstractPet;
+import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.pets.PetCommand;
 import com.eu.habbo.habbohotel.pets.PetVocalsType;
@@ -215,7 +215,7 @@ public class CommandHandler
                                         e.printStackTrace();
                                     }
 
-                                    if (gameClient.getHabbo().hasPermission("log_commands"))
+                                    if (gameClient.getHabbo().getHabboInfo().getRank().isLogCommands())
                                     {
                                         Emulator.getLogging().addLog(new CommandLog(gameClient.getHabbo().getHabboInfo().getId(), command, commandLine, succes));
                                     }
@@ -241,7 +241,7 @@ public class CommandHandler
                     if (room.getCurrentPets().isEmpty())
                         return false;
 
-                    TIntObjectIterator<AbstractPet> petIterator = room.getCurrentPets().iterator();
+                    TIntObjectIterator<Pet> petIterator = room.getCurrentPets().iterator();
 
                     for (int j = room.getCurrentPets().size(); j-- > 0; )
                     {
@@ -254,7 +254,7 @@ public class CommandHandler
                             break;
                         }
 
-                        AbstractPet pet = petIterator.value();
+                        Pet pet = petIterator.value();
 
                         if (pet instanceof Pet)
                         {
@@ -274,7 +274,7 @@ public class CommandHandler
                                     if (command.key.equalsIgnoreCase(s))
                                     {
                                         if (command.level <= pet.getLevel())
-                                            ((Pet) pet).handleCommand(command, gameClient.getHabbo());
+                                            ((Pet) pet).handleCommand(command, gameClient.getHabbo(), args);
                                         else
                                             pet.say(pet.getPetData().randomVocal(PetVocalsType.UNKNOWN_COMMAND));
 

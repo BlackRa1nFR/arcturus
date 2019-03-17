@@ -1,7 +1,7 @@
 package com.eu.habbo.messages.incoming.rooms.pets;
 
 import com.eu.habbo.Emulator;
-import com.eu.habbo.habbohotel.pets.AbstractPet;
+import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.rooms.Room;
 import com.eu.habbo.habbohotel.users.HabboItem;
@@ -65,7 +65,7 @@ public class PetPackageNameEvent extends MessageHandler
 
                         if (pet != null)
                         {
-                            room.placePet((AbstractPet) pet, item.getX(), item.getY(), item.getZ(), item.getRotation());
+                            room.placePet((Pet) pet, item.getX(), item.getY(), item.getZ(), item.getRotation());
                             pet.setUserId(this.client.getHabbo().getHabboInfo().getId());
                             pet.needsUpdate = true;
                             pet.getRoomUnit().setLocation(room.getLayout().getTile(item.getX(), item.getY()));
