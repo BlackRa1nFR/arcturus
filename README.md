@@ -10,8 +10,11 @@ Targeting PRODUCTION-201709192204-203982672
 ### Latest Arcturus Fork Version ###
 1.11.0
 
+### Extra Features in Arcturus Fork ###
+- Super special features
+
 ### Contributing ###
 
-Anyone is allowed to contribute to the project. Reporting bugs and issues goes via the issue tracker. A
+Anyone is allowed to contribute to the project. Reporting bugs and issues goes via the issue tracker. All code written and commited is yours, and not owned by TheGeneral, capheus, or anyone else unless they are the contributer.
 
 You can request features in the issue tracker.
