@@ -48,7 +48,7 @@ public class SummonCommand extends Command
 
             gameClient.getHabbo().whisper(Emulator.getTexts().getValue("commands.generic.cmd_summon.summoning").replace("%user%", params[1]), RoomChatMessageBubbles.ALERT);
 
-            //Emulator.getGameEnvironment().getRoomManager().leaveRoom(habbo, habbo.getHabboInfo().getCurrentRoom());
+            Emulator.getGameEnvironment().getRoomManager().leaveRoom(habbo, habbo.getHabboInfo().getCurrentRoom());
 
             habbo.getClient().sendResponse(new ForwardToRoomComposer(gameClient.getHabbo().getHabboInfo().getCurrentRoom().getId()));
             Emulator.getGameEnvironment().getRoomManager().enterRoom(habbo, gameClient.getHabbo().getHabboInfo().getCurrentRoom().getId(), "", true);

@@ -48,6 +48,7 @@ public class RoomUnit
     public boolean isTeleporting = false;
     public boolean isKicked = false;
     private boolean statusUpdate = false;
+    private boolean invisible = false;
 
     private final ConcurrentHashMap<RoomUnitStatus, String> status;
     private final THashMap<String, Object> cacheable;
@@ -462,9 +463,12 @@ public class RoomUnit
 
     public void setGoalLocation(RoomTile goalLocation)
     {
-        if (goalLocation.state == RoomTileState.OPEN)
+        if (goalLocation != null)
         {
-            this.setGoalLocation(goalLocation, false);
+            if (goalLocation.state == RoomTileState.OPEN)
+            {
+                this.setGoalLocation(goalLocation, false);
+            }
         }
     }
 
@@ -710,5 +714,15 @@ public class RoomUnit
     public void setRightsLevel(RoomRightLevels rightsLevel)
     {
         this.rightsLevel = rightsLevel;
+    }
+
+    public void setInvisible(boolean invisible)
+    {
+        this.invisible = invisible;
+    }
+
+    public boolean isInvisible()
+    {
+        return this.invisible;
     }
 }

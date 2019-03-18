@@ -53,6 +53,7 @@ public class UpdateUser extends RCONMessage<UpdateUser.JSON>
                     habbo.getHabboStats().blockCameraFollow = json.block_camera_follow == 1;
                 }
 
+                habbo.getHabboStats().run();
                 habbo.getClient().sendResponse(new MeMenuSettingsComposer(habbo));
             }
             else

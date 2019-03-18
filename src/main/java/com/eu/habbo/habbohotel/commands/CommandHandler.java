@@ -65,6 +65,7 @@ public class CommandHandler
         addCommand(new HabnamCommand());
         addCommand(new HandItemCommand());
         addCommand(new HappyHourCommand());
+        addCommand(new HideWiredCommand());
         addCommand(new HotelAlertCommand());
         addCommand(new HotelAlertLinkCommand());
         addCommand(new IPBanCommand());
@@ -100,6 +101,7 @@ public class CommandHandler
         addCommand(new RoomMuteCommand());
         addCommand(new RoomPixelsCommand());
         addCommand(new RoomPointsCommand());
+        addCommand(new InvisibleCommand());
         addCommand(new SayAllCommand());
         addCommand(new SayCommand());
         addCommand(new SetMaxCommand());

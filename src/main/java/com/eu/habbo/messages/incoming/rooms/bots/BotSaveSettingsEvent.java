@@ -6,10 +6,11 @@ import com.eu.habbo.habbohotel.bots.BotManager;
 import com.eu.habbo.habbohotel.permissions.Permission;
 import com.eu.habbo.habbohotel.rooms.Room;
 import com.eu.habbo.habbohotel.users.DanceType;
-import com.eu.habbo.habbohotel.users.HabboGender;
 import com.eu.habbo.messages.incoming.MessageHandler;
 import com.eu.habbo.messages.outgoing.generic.alerts.BotErrorComposer;
-import com.eu.habbo.messages.outgoing.rooms.users.*;
+import com.eu.habbo.messages.outgoing.rooms.users.RoomUnitUpdateUsernameComposer;
+import com.eu.habbo.messages.outgoing.rooms.users.RoomUserDanceComposer;
+import com.eu.habbo.messages.outgoing.rooms.users.RoomUsersComposer;
 import com.eu.habbo.plugin.events.bots.BotSavedChatEvent;
 import com.eu.habbo.plugin.events.bots.BotSavedLookEvent;
 import com.eu.habbo.plugin.events.bots.BotSavedNameEvent;
@@ -42,9 +43,9 @@ public class BotSaveSettingsEvent extends MessageHandler
             {
                 case 1:
                     BotSavedLookEvent lookEvent = new BotSavedLookEvent(bot,
-                            this.client.getHabbo().getHabboInfo().getGender(),
-                            this.client.getHabbo().getHabboInfo().getLook(),
-                            this.client.getHabbo().getRoomUnit().getEffectId());
+                                                                        this.client.getHabbo().getHabboInfo().getGender(),
+                                                                        this.client.getHabbo().getHabboInfo().getLook(),
+                                                                        this.client.getHabbo().getRoomUnit().getEffectId());
                     Emulator.getPluginManager().fireEvent(lookEvent);
 
                     if(lookEvent.isCancelled())
@@ -64,7 +65,7 @@ public class BotSaveSettingsEvent extends MessageHandler
 
                     String[] data = messageString.split(";#;");
 
-                    ArrayList<String> chat = new ArrayList<String>();
+                    ArrayList<String> chat = new ArrayList<>();
                     int totalChatLength = 0;
                     for(int i = 0; i < data.length - 3 && totalChatLength <= 120; i++)
                     {
@@ -80,7 +81,7 @@ public class BotSaveSettingsEvent extends MessageHandler
                                 count++;
                             }
 
-                            String result = Emulator.getGameEnvironment().getWordFilter().filter(s, this.client.getHabbo());
+                            String result = Emulator.getGameEnvironment().getWordFilter().filter(s, null);
 
                             if (!result.isEmpty())
                             {
@@ -138,10 +139,10 @@ public class BotSaveSettingsEvent extends MessageHandler
 
                 case 5:
                     String name = this.packet.readString();
-                    boolean invalidName = name.length() <= BotManager.MAXIMUM_NAME_LENGTH;
+                    boolean invalidName = name.length() > BotManager.MAXIMUM_NAME_LENGTH;
                     if (!invalidName)
                     {
-                        String filteredName = Jsoup.parse(name).text();
+                        String filteredName =  Emulator.getGameEnvironment().getWordFilter().filter(Jsoup.parse(name).text(), null);
                         invalidName = !name.equalsIgnoreCase(filteredName);
                         if (!invalidName)
                         {

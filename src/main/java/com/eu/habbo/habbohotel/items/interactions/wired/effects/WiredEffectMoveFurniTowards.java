@@ -57,7 +57,7 @@ public class WiredEffectMoveFurniTowards extends InteractionWiredEffect
             RoomTile t = room.getLayout().getTile(item.getX(), item.getY());
 
             boolean collided = false;
-            double shortest = 1000.0D;
+            double shortest = 4;
             Habbo target = null;
             for (Habbo habbo : room.getHabbos())
             {

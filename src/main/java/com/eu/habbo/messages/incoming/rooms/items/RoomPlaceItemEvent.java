@@ -116,7 +116,7 @@ public class RoomPlaceItemEvent extends MessageHandler
             return;
         }
 
-        THashSet<RoomTile> updatedTiles = new THashSet<RoomTile>();
+        THashSet<RoomTile> updatedTiles = new THashSet<>();
         if(item.getBaseItem().getType() == FurnitureType.FLOOR)
         {
             short x = Short.valueOf(values[1]);

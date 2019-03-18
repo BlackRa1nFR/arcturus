@@ -1,9 +1,9 @@
 package com.eu.habbo.messages.outgoing.rooms.pets;
 
-import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.habbohotel.pets.HorsePet;
 import com.eu.habbo.habbohotel.pets.IPetLook;
 import com.eu.habbo.habbohotel.pets.MonsterplantPet;
+import com.eu.habbo.habbohotel.pets.Pet;
 import com.eu.habbo.messages.ServerMessage;
 import com.eu.habbo.messages.outgoing.MessageComposer;
 import com.eu.habbo.messages.outgoing.Outgoing;
@@ -17,7 +17,7 @@ public class RoomPetComposer extends MessageComposer implements TIntObjectProced
 
     public RoomPetComposer(Pet pet)
     {
-        this.pets = new TIntObjectHashMap<Pet>();
+        this.pets = new TIntObjectHashMap<>();
         this.pets.put(pet.getId(), pet);
     }
 

@@ -20,7 +20,7 @@ public class RoomUserShoutEvent extends MessageHandler
 
         RoomChatMessage message = new RoomChatMessage(this);
 
-        if (message.getMessage().length() <= 100)
+        if (message.getMessage().length() <= RoomChatMessage.MAXIMUM_LENGTH)
         {
             if (Emulator.getPluginManager().fireEvent(new UserTalkEvent(this.client.getHabbo(), message, RoomChatType.SHOUT)).isCancelled())
             {
@@ -39,7 +39,7 @@ public class RoomUserShoutEvent extends MessageHandler
         }
         else
         {
-            String reportMessage = Emulator.getTexts().getValue("scripter.warning.chat.length").replace("%username%", client.getHabbo().getHabboInfo().getUsername().replace("%length%", message.getMessage().length() + ""));
+            String reportMessage = Emulator.getTexts().getValue("scripter.warning.chat.length").replace("%username%", client.getHabbo().getHabboInfo().getUsername()).replace("%length%", message.getMessage().length() + "");
             Emulator.getGameEnvironment().getModToolManager().quickTicket(client.getHabbo(), "Scripter", reportMessage);
             Emulator.getLogging().logUserLine(reportMessage);
         }

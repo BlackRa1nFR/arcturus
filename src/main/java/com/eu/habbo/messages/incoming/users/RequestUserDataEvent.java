@@ -5,7 +5,9 @@ import com.eu.habbo.habbohotel.rooms.RoomManager;
 import com.eu.habbo.messages.ServerMessage;
 import com.eu.habbo.messages.incoming.MessageHandler;
 import com.eu.habbo.messages.outgoing.rooms.ForwardToRoomComposer;
-import com.eu.habbo.messages.outgoing.users.*;
+import com.eu.habbo.messages.outgoing.users.MeMenuSettingsComposer;
+import com.eu.habbo.messages.outgoing.users.UserDataComposer;
+import com.eu.habbo.messages.outgoing.users.UserPerksComposer;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ public class RequestUserDataEvent extends MessageHandler
 
             //******//
 
-            ArrayList<ServerMessage> messages = new ArrayList<ServerMessage>();
+            ArrayList<ServerMessage> messages = new ArrayList<>();
 
 /*
             messages.add(new MinimailCountComposer().compose());

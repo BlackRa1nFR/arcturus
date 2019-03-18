@@ -3,6 +3,7 @@ package com.eu.habbo.threading.runnables;
 import com.eu.habbo.Emulator;
 import com.eu.habbo.habbohotel.achievements.AchievementManager;
 import com.eu.habbo.habbohotel.rooms.Room;
+import com.eu.habbo.habbohotel.users.Habbo;
 import com.eu.habbo.habbohotel.users.HabboItem;
 import com.eu.habbo.messages.outgoing.rooms.items.AddFloorItemComposer;
 import com.eu.habbo.messages.outgoing.rooms.items.RemoveFloorItemComposer;
@@ -12,7 +13,7 @@ public class CrackableExplode implements Runnable
     private final Room room;
     private final HabboItem habboItem;
 
-    public CrackableExplode(Room room, HabboItem item)
+    public CrackableExplode(Room room, HabboItem item, Habbo habbo, boolean b)
     {
         this.room = room;
         this.habboItem = item;

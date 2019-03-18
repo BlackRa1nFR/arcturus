@@ -16,7 +16,6 @@ import com.eu.habbo.habbohotel.items.interactions.games.freeze.InteractionFreeze
 import com.eu.habbo.habbohotel.items.interactions.games.freeze.InteractionFreezeTimer;
 import com.eu.habbo.habbohotel.items.interactions.games.freeze.gates.InteractionFreezeGate;
 import com.eu.habbo.habbohotel.items.interactions.games.freeze.scoreboards.InteractionFreezeScoreboard;
-import com.eu.habbo.habbohotel.items.interactions.wired.extra.WiredExtraRandom;
 import com.eu.habbo.habbohotel.users.HabboItem;
 import com.eu.habbo.habbohotel.wired.WiredConditionType;
 import com.eu.habbo.habbohotel.wired.WiredEffectType;
@@ -94,7 +93,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.banzaiTeleporters)
         {
-            THashSet<InteractionBattleBanzaiTeleporter> battleBanzaiTeleporters = new THashSet<InteractionBattleBanzaiTeleporter>();
+            THashSet<InteractionBattleBanzaiTeleporter> battleBanzaiTeleporters = new THashSet<>();
             battleBanzaiTeleporters.addAll(this.banzaiTeleporters.values());
 
             return battleBanzaiTeleporters;
@@ -131,7 +130,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.nests)
         {
-            THashSet<InteractionNest> nests = new THashSet<InteractionNest>();
+            THashSet<InteractionNest> nests = new THashSet<>();
             nests.addAll(this.nests.values());
 
             return nests;
@@ -160,7 +159,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.petDrinks)
         {
-            THashSet<InteractionPetDrink> petDrinks = new THashSet<InteractionPetDrink>();
+            THashSet<InteractionPetDrink> petDrinks = new THashSet<>();
             petDrinks.addAll(this.petDrinks.values());
 
             return petDrinks;
@@ -189,7 +188,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.petFoods)
         {
-            THashSet<InteractionPetFood> petFoods = new THashSet<InteractionPetFood>();
+            THashSet<InteractionPetFood> petFoods = new THashSet<>();
             petFoods.addAll(this.petFoods.values());
 
             return petFoods;
@@ -218,7 +217,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.petToys)
         {
-            THashSet<InteractionPetToy> petToys = new THashSet<InteractionPetToy>();
+            THashSet<InteractionPetToy> petToys = new THashSet<>();
             petToys.addAll(this.petToys.values());
 
             return petToys;
@@ -281,7 +280,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.wiredTriggers)
         {
-            THashSet<InteractionWiredTrigger> triggers = new THashSet<InteractionWiredTrigger>();
+            THashSet<InteractionWiredTrigger> triggers = new THashSet<>();
 
             for (Map.Entry<WiredTriggerType, THashSet<InteractionWiredTrigger>> map : this.wiredTriggers.entrySet())
             {
@@ -301,7 +300,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.wiredTriggers)
         {
-            THashSet<InteractionWiredTrigger> triggers = new THashSet<InteractionWiredTrigger>();
+            THashSet<InteractionWiredTrigger> triggers = new THashSet<>();
 
             for (Map.Entry<WiredTriggerType, THashSet<InteractionWiredTrigger>> map : this.wiredTriggers.entrySet())
             {
@@ -321,7 +320,7 @@ public class RoomSpecialTypes
         synchronized (this.wiredTriggers)
         {
             if (!this.wiredTriggers.containsKey(trigger.getType()))
-                this.wiredTriggers.put(trigger.getType(), new THashSet<InteractionWiredTrigger>());
+                this.wiredTriggers.put(trigger.getType(), new THashSet<>());
 
             this.wiredTriggers.get(trigger.getType()).add(trigger);
         }
@@ -364,7 +363,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.wiredEffects)
         {
-            THashSet<InteractionWiredEffect> effects = new THashSet<InteractionWiredEffect>();
+            THashSet<InteractionWiredEffect> effects = new THashSet<>();
 
             for (Map.Entry<WiredEffectType, THashSet<InteractionWiredEffect>> map : this.wiredEffects.entrySet())
             {
@@ -384,7 +383,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.wiredEffects)
         {
-            THashSet<InteractionWiredEffect> effects = new THashSet<InteractionWiredEffect>();
+            THashSet<InteractionWiredEffect> effects = new THashSet<>();
 
             for (Map.Entry<WiredEffectType, THashSet<InteractionWiredEffect>> map : this.wiredEffects.entrySet())
             {
@@ -404,7 +403,7 @@ public class RoomSpecialTypes
         synchronized (this.wiredEffects)
         {
             if (!this.wiredEffects.containsKey(effect.getType()))
-                this.wiredEffects.put(effect.getType(), new THashSet<InteractionWiredEffect>());
+                this.wiredEffects.put(effect.getType(), new THashSet<>());
 
             this.wiredEffects.get(effect.getType()).add(effect);
         }
@@ -447,7 +446,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.wiredConditions)
         {
-            THashSet<InteractionWiredCondition> conditions = new THashSet<InteractionWiredCondition>();
+            THashSet<InteractionWiredCondition> conditions = new THashSet<>();
 
             for (Map.Entry<WiredConditionType, THashSet<InteractionWiredCondition>> map : this.wiredConditions.entrySet())
             {
@@ -470,7 +469,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.wiredConditions)
         {
-            THashSet<InteractionWiredCondition> conditions = new THashSet<InteractionWiredCondition>();
+            THashSet<InteractionWiredCondition> conditions = new THashSet<>();
 
             for (Map.Entry<WiredConditionType, THashSet<InteractionWiredCondition>> map : this.wiredConditions.entrySet())
             {
@@ -490,7 +489,7 @@ public class RoomSpecialTypes
         synchronized (this.wiredConditions)
         {
             if (!this.wiredConditions.containsKey(condition.getType()))
-                this.wiredConditions.put(condition.getType(), new THashSet<InteractionWiredCondition>());
+                this.wiredConditions.put(condition.getType(), new THashSet<>());
 
             this.wiredConditions.get(condition.getType()).add(condition);
         }
@@ -516,7 +515,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.wiredExtras)
         {
-            THashSet<InteractionWiredExtra> extras = new THashSet<InteractionWiredExtra>();
+            THashSet<InteractionWiredExtra> extras = new THashSet<>();
 
             for (Map.Entry<Integer, InteractionWiredExtra> map : this.wiredExtras.entrySet())
             {
@@ -584,7 +583,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameScoreboards)
         {
-            THashMap<Integer, InteractionFreezeScoreboard> boards = new THashMap<Integer, InteractionFreezeScoreboard>();
+            THashMap<Integer, InteractionFreezeScoreboard> boards = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameScoreboard> set : this.gameScoreboards.entrySet())
             {
@@ -602,7 +601,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameScoreboards)
         {
-            THashMap<Integer, InteractionFreezeScoreboard> boards = new THashMap<Integer, InteractionFreezeScoreboard>();
+            THashMap<Integer, InteractionFreezeScoreboard> boards = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameScoreboard> set : this.gameScoreboards.entrySet())
             {
@@ -621,7 +620,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameScoreboards)
         {
-            THashMap<Integer, InteractionBattleBanzaiScoreboard> boards = new THashMap<Integer, InteractionBattleBanzaiScoreboard>();
+            THashMap<Integer, InteractionBattleBanzaiScoreboard> boards = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameScoreboard> set : this.gameScoreboards.entrySet())
             {
@@ -639,7 +638,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameScoreboards)
         {
-            THashMap<Integer, InteractionBattleBanzaiScoreboard> boards = new THashMap<Integer, InteractionBattleBanzaiScoreboard>();
+            THashMap<Integer, InteractionBattleBanzaiScoreboard> boards = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameScoreboard> set : this.gameScoreboards.entrySet())
             {
@@ -658,7 +657,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameScoreboards)
         {
-            THashMap<Integer, InteractionFootballScoreboard> boards = new THashMap<Integer, InteractionFootballScoreboard>();
+            THashMap<Integer, InteractionFootballScoreboard> boards = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameScoreboard> set : this.gameScoreboards.entrySet())
             {
@@ -676,7 +675,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameScoreboards)
         {
-            THashMap<Integer, InteractionFootballScoreboard> boards = new THashMap<Integer, InteractionFootballScoreboard>();
+            THashMap<Integer, InteractionFootballScoreboard> boards = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameScoreboard> set : this.gameScoreboards.entrySet())
             {
@@ -713,7 +712,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameGates)
         {
-            THashMap<Integer, InteractionFreezeGate> gates = new THashMap<Integer, InteractionFreezeGate>();
+            THashMap<Integer, InteractionFreezeGate> gates = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameGate> set : this.gameGates.entrySet())
             {
@@ -731,7 +730,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameGates)
         {
-            THashMap<Integer, InteractionBattleBanzaiGate> gates = new THashMap<Integer, InteractionBattleBanzaiGate>();
+            THashMap<Integer, InteractionBattleBanzaiGate> gates = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameGate> set : this.gameGates.entrySet())
             {
@@ -772,7 +771,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameTimers)
         {
-            THashMap<Integer, InteractionFreezeTimer> timers = new THashMap<Integer, InteractionFreezeTimer>();
+            THashMap<Integer, InteractionFreezeTimer> timers = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameTimer> set : this.gameTimers.entrySet())
             {
@@ -790,7 +789,7 @@ public class RoomSpecialTypes
     {
         synchronized (this.gameTimers)
         {
-            THashMap<Integer, InteractionBattleBanzaiTimer> timers = new THashMap<Integer, InteractionBattleBanzaiTimer>();
+            THashMap<Integer, InteractionBattleBanzaiTimer> timers = new THashMap<>();
 
             for (Map.Entry<Integer, InteractionGameTimer> set : this.gameTimers.entrySet())
             {
@@ -863,7 +862,7 @@ public class RoomSpecialTypes
 
     public THashSet<HabboItem> getItemsOfType(Class<? extends HabboItem> type)
     {
-        THashSet<HabboItem> items = new THashSet<HabboItem>();
+        THashSet<HabboItem> items = new THashSet<>();
         synchronized (this.undefined)
         {
             for(HabboItem item : this.undefined.values())
