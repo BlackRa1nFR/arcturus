@@ -34,7 +34,7 @@ public class Achievement
      */
     public Achievement(ResultSet set) throws SQLException
     {
-        levels = new THashMap<Integer, AchievementLevel>();
+        levels = new THashMap<>();
 
         id = set.getInt("id");
         this.name = set.getString("name");

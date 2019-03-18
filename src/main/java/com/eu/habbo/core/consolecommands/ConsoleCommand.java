@@ -8,7 +8,7 @@ public abstract class ConsoleCommand
     /**
      * Holds all console commands.
      */
-    public static THashMap<String, ConsoleCommand> commands = new THashMap<String, ConsoleCommand>();
+    public static THashMap<String, ConsoleCommand> commands = new THashMap<>();
 
     /**
      * The key of the command. First word.

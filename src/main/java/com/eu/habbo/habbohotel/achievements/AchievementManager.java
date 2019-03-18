@@ -90,7 +90,7 @@ public class AchievementManager
 
                             if (!this.talentTrackLevels.containsKey(level.type))
                             {
-                                this.talentTrackLevels.put(level.type, new LinkedHashMap<Integer, TalentTrackLevel>());
+                                this.talentTrackLevels.put(level.type, new LinkedHashMap<>());
                             }
 
                             this.talentTrackLevels.get(level.type).put(level.level, level);

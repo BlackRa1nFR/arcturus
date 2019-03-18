@@ -519,7 +519,7 @@ public class CatalogItem implements ISerialize, Runnable, Comparable<CatalogItem
      * @param item The item to check
      * @return True if the item has offers enabled.
      */
-    private static boolean haveOffer(CatalogItem item)
+    public static boolean haveOffer(CatalogItem item)
     {
         if(!item.haveOffer)
             return false;

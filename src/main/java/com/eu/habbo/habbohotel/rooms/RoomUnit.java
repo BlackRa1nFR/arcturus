@@ -20,7 +20,9 @@ import com.eu.habbo.util.pathfinding.Rotation;
 import gnu.trove.map.TMap;
 import gnu.trove.map.hash.THashMap;
 
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RoomUnit
@@ -69,7 +71,7 @@ public class RoomUnit
         this.inRoom = false;
         this.canWalk = true;
         this.status = new ConcurrentHashMap<>();
-        this.cacheable = new THashMap<String, Object>();
+        this.cacheable = new THashMap<>();
         this.roomUnitType = RoomUnitType.UNKNOWN;
         this.bodyRotation = RoomUserRotation.NORTH;
         this.bodyRotation = RoomUserRotation.NORTH;
@@ -321,7 +323,7 @@ public class RoomUnit
             //room.sendComposer(new RoomUserStatusComposer(this).compose());
 
             this.setZ(zHeight);
-            this.setCurrentLocation(room.getLayout().getTile((short) next.x, (short) next.y));
+            this.setCurrentLocation(room.getLayout().getTile(next.x, next.y));
             this.resetIdleTimer();
 
             if (habbo != null)
@@ -482,9 +484,16 @@ public class RoomUnit
         if (goalLocation != null && !noReset)
         {
             this.goalLocation = goalLocation;
-            this.tilesWalked = 0;
             this.findPath();
-            this.cmdSit = false;
+            if (!this.path.isEmpty())
+            {
+                this.tilesWalked = 0;
+                this.cmdSit = false;
+            }
+            else
+            {
+                this.goalLocation = this.currentLocation;
+            }
         }
     }
 
@@ -528,6 +537,11 @@ public class RoomUnit
         {
             this.path = this.room.getLayout().findPath(this.currentLocation, this.goalLocation);
         }
+    }
+
+    public void setPath(Deque<RoomTile> path)
+    {
+        this.path = path;
     }
 
     public boolean isAtGoal()

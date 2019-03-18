@@ -1085,7 +1085,7 @@ public class CatalogManager
 
                 Automatically creates a new ModToolIssue and sends it to the online moderators.
              */
-            if(amount > 1 && !item.isHaveOffer())
+            if(amount > 1 && !CatalogItem.haveOffer(item))
             {
                 String message = Emulator.getTexts().getValue("scripter.warning.catalog.amount").replace("%username%", habbo.getHabboInfo().getUsername()).replace("%itemname%", item.getName()).replace("%pagename%", page.getCaption());
                 Emulator.getGameEnvironment().getModToolManager().quickTicket(habbo.getClient().getHabbo(), "Scripter", message);
@@ -1116,7 +1116,7 @@ public class CatalogManager
                     if(free ||
                             item.getPoints() <= habbo.getClient().getHabbo().getHabboInfo().getCurrencyAmount(item.getPointsType()) - totalPoints)
                     {
-                        if (((i + 1) % 6 != 0 && item.isHaveOffer()) || !item.isHaveOffer())
+                        if (((i + 1) % 6 != 0 && CatalogItem.haveOffer(item)) || !CatalogItem.haveOffer(item))
                         {
                             totalCredits += item.getCredits();
                             totalPoints += item.getPoints();

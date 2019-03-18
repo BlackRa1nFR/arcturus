@@ -83,13 +83,13 @@ public class Logging
      * Error logging cache layer.
      * Used for bulk inserting into the database.
      */
-    private final THashSet<Loggable> errorLogs = new THashSet<Loggable>();
+    private final THashSet<Loggable> errorLogs = new THashSet<>();
 
     /**
      * Command log cache layer.
      * Used for bulk inserting into the database.
      */
-    private final THashSet<Loggable> commandLogs = new THashSet<Loggable>();
+    private final THashSet<Loggable> commandLogs = new THashSet<>();
 
     public Logging()
     {

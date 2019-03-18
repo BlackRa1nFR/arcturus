@@ -4057,6 +4057,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
                 {
                     if (item.getBaseItem().allowSit())
                     {
+                        canStack = item.getBaseItem().allowStack();
                         canStack = false;
                         height = -1.0D;
                         break;
@@ -4069,7 +4070,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
                         break;
                     }
 
-                    double itemHeight = (item.getBaseItem().allowSit() ? 0.0D : item.getBaseItem().getHeight()) + item.getZ();
+                    double itemHeight = item.getBaseItem().getHeight() + item.getZ();
 
                     if (item instanceof InteractionMultiHeight)
                     {
@@ -4114,9 +4115,12 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
 
                 if (item.getBaseItem().allowSit())
                 {
-                    canStack = false;
-                    height = 0.0D;
-                    break;
+                    canStack = item.getBaseItem().allowStack();
+                    if (!canStack)
+                    {
+                        height = 0.0D;
+                        break;
+                    }
                 }
 
                 if (!item.getBaseItem().allowStack())
@@ -4125,7 +4129,7 @@ public class Room implements Comparable<Room>, ISerialize, Runnable
                     break;
                 }
 
-                double itemHeight = (item.getBaseItem().allowSit() ? 0.0D : item.getBaseItem().getHeight()) + item.getZ();
+                double itemHeight = item.getBaseItem().getHeight() + item.getZ();
 
                 if (item instanceof InteractionMultiHeight)
                 {
