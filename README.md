@@ -8,7 +8,7 @@ Targeting PRODUCTION-201611291003-338511768
 
 ### Latest Arcturus Fork Version ###
 1.11.0 - 
-Targeting PRODUCTION-201709192204-203982672
+Targeting <b>PRODUCTION-201801091205-747212226</b>
 
 ### Extra Features in Arcturus Fork ###
 - Group Forums (Credits to Mania.gg)
